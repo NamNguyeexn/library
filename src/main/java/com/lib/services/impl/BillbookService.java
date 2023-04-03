@@ -9,6 +9,8 @@ import java.util.List;
 
 public class BillbookService implements BillbookServiceImpl {
     @Autowired
+    private Billbook billbook;
+    @Autowired
     private BillbookDao billbookDao;
     @Override
     public List<Billbook> getBillbookByPubligherId(String id) {
@@ -27,6 +29,7 @@ public class BillbookService implements BillbookServiceImpl {
     }
     @Override
     public Billbook getBillbookById(String id) {
+        // tim tat ca sach co ma
         for (var b : billbookDao.getAllBillbooks()) {
             if (b.getId().matches(id))
                 return b;
@@ -36,8 +39,6 @@ public class BillbookService implements BillbookServiceImpl {
     @Override
     public void updateBillbookById(String id) {
         if(getBillbookById(id) == null) {
-
-        } else {
 
         }
     }
