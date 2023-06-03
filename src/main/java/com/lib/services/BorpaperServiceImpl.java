@@ -1,9 +1,13 @@
 package com.lib.services;
 
 import com.lib.beans.Borpaper;
+//import com.lib.beans.ResponseObject;
+
 import java.util.List;
 public interface BorpaperServiceImpl {
-    public Borpaper getBorpaperById (String id);
-    public List<Borpaper> getBorpapersByTime (String lDay, String rDay);
-    public List<Borpaper> getBorpaperByTime (String lDay);
+    List<Borpaper> getBorpapersByTimeToTime (String lDay, String rDay);
+    List<Borpaper> getBorpaperByTimeEnd (String rDay);
+    List<Borpaper> getBorpaperByTimeStart (String lDay);
+    List<Borpaper> getBorpaperOutOfDate ();
+    List<Borpaper> findByReaderId(int id);
 }

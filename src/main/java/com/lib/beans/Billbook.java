@@ -1,41 +1,56 @@
 package com.lib.beans;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "billbook")
 public class Billbook {
-    private String id;
+    @Id
+    @Column(name = "id", nullable = false)
+    private int id;
+    @Column(name = "name", nullable = false)
     private String name;
+    @Column(name = "cost", nullable = false)
     private int cost;
+    @Column(name = "amount", nullable = false)
     private int amount;
+    @Column(name = "price", nullable = false)
     private int price;
+    @Column(name = "total_cost", nullable = false)
     private int totalCost;
-    private String idLibrarian;
+    @Column(name = "librarian_id", nullable = false)
+    private int librarianId;
 
     public Billbook() {
     }
 
-    public Billbook(String id, String name, int cost, int amount, int price, int totalCost, String idLibrarian) {
+    public Billbook(int id, String name, int cost, int amount, int price, int totalCost, int librarianId) {
         this.id = id;
         this.name = name;
         this.cost = cost;
         this.amount = amount;
         this.price = price;
         this.totalCost = totalCost;
-        this.idLibrarian = idLibrarian;
+        this.librarianId = librarianId;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    public String getIdLibrarian() {
-        return idLibrarian;
+    public int getLibrarianId() {
+        return librarianId;
     }
 
-    public void setIdLibrarian(String idLibrarian) {
-        this.idLibrarian = idLibrarian;
+    public void setLibrarianId(int librarianId) {
+        this.librarianId = librarianId;
     }
 
     public String getName() {

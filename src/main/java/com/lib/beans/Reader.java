@@ -1,24 +1,35 @@
 package com.lib.beans;
-public class Reader{
-    private Human h = new Human();
-    private String id;
-    private String name;
-    private String idHuman;
 
-    public Reader(String id, String name, String idHuman) {
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "reader")
+public class Reader {
+    @Id
+    @Column(name = "id", nullable = false)
+    private int id;
+    @Column(name = "name", nullable = false)
+    private String name;
+    @Column(name = "human_id", nullable = false)
+    private int humanId;
+
+    public Reader(int id, String name, int humanId) {
         this.id = id;
         this.name = name;
-        this.idHuman = idHuman;
+        this.humanId = humanId;
     }
 
     public Reader() {
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -30,11 +41,11 @@ public class Reader{
         this.name = name;
     }
 
-    public String getIdHuman() {
-        return idHuman;
+    public int getHumanId() {
+        return humanId;
     }
 
-    public void setIdHuman(String idHuman) {
-        this.idHuman = idHuman;
+    public void setHumanId(int humanId) {
+        this.humanId = humanId;
     }
 }

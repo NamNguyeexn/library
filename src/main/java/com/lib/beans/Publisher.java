@@ -1,16 +1,29 @@
 package com.lib.beans;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "publisher")
 public class Publisher {
-    private String id;
+    @Id
+    @Column(name = "id", nullable = false)
+    private int id;
+    @Column(name = "name", nullable = false)
     private String name;
+    @Column(name = "address", nullable = false)
     private String address;
+    @Column(name = "email", nullable = false)
     private String email;
+    @Column(name = "phone", nullable = false)
     private String phone;
 
     public Publisher() {
     }
 
-    public Publisher(String id, String name, String address, String email, String phone) {
+    public Publisher(int id, String name, String address, String email, String phone) {
         this.id = id;
         this.name = name;
         this.address = address;
@@ -18,11 +31,11 @@ public class Publisher {
         this.phone = phone;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 

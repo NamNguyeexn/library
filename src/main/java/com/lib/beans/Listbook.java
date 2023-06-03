@@ -1,36 +1,53 @@
 package com.lib.beans;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "listbook")
 public class Listbook {
-    private String id;
+    @Id
+    @Column(name = "id", nullable = false)
+    private int id;
+    @Column(name = "name", nullable = false)
     private String name;
+    @Column(name = "author", nullable = false)
     private String author;
+    @Column(name = "pub_year", nullable = false)
     private int pubYear;
+    @Column(name = "cost", nullable = false)
     private int cost;
+    @Column(name = "amount", nullable = false)
     private int amount;
-    private String idBillbook;
-    private String idPublisher;
-    private String idLibrarian;
+    @Column(name = "billbook_id", nullable = false)
+    private int billbookId;
+    @Column(name = "publisher_id", nullable = false)
+    private int publisherId;
+    @Column(name = "librarian_id", nullable = false)
+    private int librarianId;
 
     public Listbook() {
     }
 
-    public Listbook(String id, String name, String author, int pubYear, int cost, int amount, String idBillbook, String idPublisher, String idLibrarian) {
+    public Listbook(int id, String name, String author, int pubYear, int cost, int amount, int billbookId, int publisherId, int librarianId) {
         this.id = id;
         this.name = name;
         this.author = author;
         this.pubYear = pubYear;
         this.cost = cost;
         this.amount = amount;
-        this.idBillbook = idBillbook;
-        this.idPublisher = idPublisher;
-        this.idLibrarian = idLibrarian;
+        this.billbookId = billbookId;
+        this.publisherId = publisherId;
+        this.librarianId = librarianId;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -74,27 +91,27 @@ public class Listbook {
         this.amount = amount;
     }
 
-    public String getIdBillbook() {
-        return idBillbook;
+    public int getBillbookId() {
+        return billbookId;
     }
 
-    public void setIdBillbook(String idBillbook) {
-        this.idBillbook = idBillbook;
+    public void setBillbookId(int billbookId) {
+        this.billbookId = billbookId;
     }
 
-    public String getIdPublisher() {
-        return idPublisher;
+    public int getPublisherId() {
+        return publisherId;
     }
 
-    public void setIdPublisher(String idPublisher) {
-        this.idPublisher = idPublisher;
+    public void setPublisherId(int publisherId) {
+        this.publisherId = publisherId;
     }
 
-    public String getIdLibrarian() {
-        return idLibrarian;
+    public int getLibrarianId() {
+        return librarianId;
     }
 
-    public void setIdLibrarian(String idLibrarian) {
-        this.idLibrarian = idLibrarian;
+    public void setLibrarianId(int librarianId) {
+        this.librarianId = librarianId;
     }
 }

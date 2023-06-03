@@ -1,23 +1,41 @@
 package com.lib.beans;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "librarian")
 public class Librarian {
-    private String id;
+    @Id
+    @Column(name = "id", nullable = false)
+    private int id;
+    @Column(name = "name", nullable = false)
     private String name;
-    private String idHuman;
+    @Column(name = "human_id", nullable = false)
+    private int humanId;
+    @Column(name = "username", nullable = false)
+    private String username;
+    @Column(name = "password", nullable = false)
+    private String password;
 
     public Librarian() {
     }
 
-    public Librarian(String id, String name, String idHuman) {
+    public Librarian(int id, String name, int humanId, String username, String password) {
         this.id = id;
         this.name = name;
-        this.idHuman = idHuman;
+        this.humanId = humanId;
+        this.username = username;
+        this.password = password;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -29,11 +47,27 @@ public class Librarian {
         this.name = name;
     }
 
-    public String getIdHuman() {
-        return idHuman;
+    public int getHumanId() {
+        return humanId;
     }
 
-    public void setIdHuman(String idHuman) {
-        this.idHuman = idHuman;
+    public void setHumanId(int humanId) {
+        this.humanId = humanId;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

@@ -3,11 +3,12 @@ package com.lib.services;
 import java.util.List;
 
 import com.lib.beans.Billbook;
+//import com.lib.beans.ResponseObject;
 
 public interface BillbookServiceImpl {
-    public List<Billbook> getBillbookByPubligherId(String id); // tìm hóa đơn theo mã nhà xuất bản
-    public void createBillbook (String id, String name, int cost, int amount, int price, int totalCost, String LibrarianID);
-    public void updateBillbookById (String id);
-    public void deleteBillbookById (String id);
-    public Billbook getBillbookById (String id);
+//    ResponseObject<List<Billbook>> findByPublisherId(int id); // tìm hóa đơn theo mã nhà xuất bản
+//    ResponseObject<List<Billbook>> findByLibrarianId(int id);
+    List<Billbook> findByPublisherId(int id); // tìm hóa đơn theo mã nhà xuất bản
+    List<Billbook> findByLibrarianId(int id);
+    Billbook findByNameBillbook(String name);
 }

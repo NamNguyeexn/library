@@ -1,24 +1,35 @@
 package com.lib.beans;
-import com.lib.beans.Listbook;
-public class Book {
-    private String id;
-    private String detail;
-    private String idListBook;
 
-    public Book(String id, String detail, String idListBook) {
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "book")
+public class Book {
+    @Id
+    @Column(name = "id", nullable = false)
+    private int id;
+    @Column(name = "default", nullable = false)
+    private String detail;
+    @Column(name = "listbook_id", nullable = false)
+    private int listbookId;
+
+    public Book(int id, String detail, int listbook_id) {
         this.id = id;
         this.detail = detail;
-        this.idListBook = idListBook;
+        this.listbookId = listbook_id;
     }
 
     public Book() {
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -30,11 +41,11 @@ public class Book {
         this.detail = detail;
     }
 
-    public String getIdListBook() {
-        return idListBook;
+    public int getListbook_id() {
+        return listbookId;
     }
 
-    public void setIdListBook(String idListBook) {
-        this.idListBook = idListBook;
+    public void setListbook_id(int listbook_id) {
+        this.listbookId = listbook_id;
     }
 }

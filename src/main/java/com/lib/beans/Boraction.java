@@ -1,50 +1,73 @@
 package com.lib.beans;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "boraction")
 public class Boraction {
-    private String idBook;
-    private String idReader;
-    private String idLibrarian;
-    private String idPaper;
+    @Id
+    @Column(name = "id", nullable = false)
+    private int id;
+    @Column(name = "book_id", nullable = false)
+    private int bookId;
+    @Column(name = "reader_id", nullable = false)
+    private int readerId;
+    @Column(name = "librarian_id", nullable = false)
+    private int librarianId;
+    @Column(name = "paper_id", nullable = false)
+    private int paperId;
 
     public Boraction() {
     }
 
-    public Boraction(String idBook, String idReader, String idLibrarian, String idPaper) {
-        this.idBook = idBook;
-        this.idReader = idReader;
-        this.idLibrarian = idLibrarian;
-        this.idPaper = idPaper;
+    public Boraction(int id, int bookId, int readerId, int librarianId, int paperId) {
+        this.id = id;
+        this.bookId = bookId;
+        this.readerId = readerId;
+        this.librarianId = librarianId;
+        this.paperId = paperId;
     }
 
-    public String getIdBook() {
-        return idBook;
+    public int getId() {
+        return id;
     }
 
-    public void setIdBook(String idBook) {
-        this.idBook = idBook;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public String getIdReader() {
-        return idReader;
+    public int getBookId() {
+        return bookId;
     }
 
-    public void setIdReader(String idReader) {
-        this.idReader = idReader;
+    public void setBookId(int bookId) {
+        this.bookId = bookId;
     }
 
-    public String getIdLibrarian() {
-        return idLibrarian;
+    public int getReaderId() {
+        return readerId;
     }
 
-    public void setIdLibrarian(String idLibrarian) {
-        this.idLibrarian = idLibrarian;
+    public void setReaderId(int readerId) {
+        this.readerId = readerId;
     }
 
-    public String getIdPaper() {
-        return idPaper;
+    public int getLibrarianId() {
+        return librarianId;
     }
 
-    public void setIdPaper(String idPaper) {
-        this.idPaper = idPaper;
+    public void setLibrarianId(int librarianId) {
+        this.librarianId = librarianId;
+    }
+
+    public int getPaperId() {
+        return paperId;
+    }
+
+    public void setPaperId(int paperId) {
+        this.paperId = paperId;
     }
 }
