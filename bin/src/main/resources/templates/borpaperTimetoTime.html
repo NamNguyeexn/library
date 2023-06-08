@@ -36,42 +36,39 @@
   </div>
 </nav>
 <div class="container my-5 col-6">
-  <form method="post" action="@{/borpaper/timetotime/{timeL}to{timeR}}">
+  <form method="post" action="@{/findByLibrarian/{id}}">
     <div class="form">
-      <label>Ngày : </label>
-      <input type="text" class="form-control" id="timeL" required>
-      <label>tới ngày : </label>
-      <input type="text" class="form-control" id="timeR" required>
+      <label for="id">Mã thủ thư : </label>
+      <input type="text" class="form-control" id="id" required>
       <button type="submit" class="btn btn-primary">Tìm kiếm</button>
     </div>
   </form>
-  <form method="post" action="@{/borpaper/outofdate}">
+  <form method="post" action="@{/findById/{key}}">
     <div class="form">
-      <button type="submit" class="btn btn-primary">Phiếu mượn quá hạn</button>
+      <label for="key">Từ khóa : </label>
+      <input type="text" class="form-control" id="key" required>
+      <button type="submit" class="btn btn-primary">Search</button>
     </div>
   </form>
   <table class="table table-striped table-hover">
     <thead>
     <tr>
       <th scope="col">Id</th>
-      <th scope="col">Mã độc giả</th>
-      <th scope="col">Ngày mượn</th>
-      <th scope="col">Ngày trả</th>
-      <th scope="col">Hạn trả</th>
-      <th scope="col">Note</th>
-      <th scope="col">Trạng thái</th>
+      <th scope="col">Ghi chú</th>
+      <th scope="col">Id đầu sách</th>
+      <th scope="col">Tên</th>
     </tr>
     </thead>
-<!--    <tbody>-->
-<!--    <tr th:each="b:${}">-->
-<!--      <td th:text="${b.id}"></td>-->
-<!--      <td th:text="${b.detail}"></td>-->
-<!--      <td th:text="${b.listbook_id}"></td>-->
-<!--    </tr>-->
-<!--    <tr th:each="nB:${nameBook}">-->
-<!--      <td th:text="${nb}"></td>-->
-<!--    </tr>-->
-<!--    </tbody>-->
+    <tbody>
+    <tr th:each="b:${books}">
+      <td th:text="${b.id}"></td>
+      <td th:text="${b.detail}"></td>
+      <td th:text="${b.listbook_id}"></td>
+    </tr>
+    <tr th:each="nB:${nameBook}">
+      <td th:text="${nb}"></td>
+    </tr>
+    </tbody>
   </table>
 </div>
 </body>

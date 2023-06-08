@@ -8,7 +8,7 @@ import com.lib.beans.Billbook;
 public interface BillbookServiceImpl {
 //    ResponseObject<List<Billbook>> findByPublisherId(int id); // tìm hóa đơn theo mã nhà xuất bản
 //    ResponseObject<List<Billbook>> findByLibrarianId(int id);
-    List<Billbook> findByPublisherId(int id); // tìm hóa đơn theo mã nhà xuất bản
+    List<Billbook> findByPublisherId(int id);
     List<Billbook> findByLibrarianId(int id);
     Billbook findByNameBillbook(String name);
 }
