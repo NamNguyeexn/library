@@ -1,29 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+    <meta charset="UTF-8">
   <meta name="librarianHome" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-primary">
-  <div class="container-lg">
+<nav class="navbar navbar-expand navbar-light bg-primary">
+  <div class="container">
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-5 mb-lg-0">
-        <li class="nav-item">
-          <a class="nav-link active text-white-50" aria-current="page" href="/home">Home</a>
+        <li class="nav-item ">
+          <a class="nav-link active text-white-50 col" aria-current="page" href="/librarian">Home</a>
         </li>
-        <li class="nav-item">
-          <a class="button nav-link text-white-50" href="/book">Books</a>
+        <li class="nav-item col">
+          <a class="button nav-link text-white-50 col" href="/book/all">Books</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link text-white-50" href="/borpaper">Borrow Paper</a>
+        <li class="nav-item col">
+          <a class="button nav-link text-white-50 col" href="/borpaper/all">Borpaper</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link text-white-50" href="/billbook">Billbook</a>
+        <li class="nav-item col">
+          <a class="button nav-link text-white-50 col" href="/billbook/all">Billbook</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link text-white-50" href="/boraction">Borrow Action</a>
+        <li class="nav-item col">
+          <a class="button nav-link text-white-50 col" href="/boraction/all">Boraction</a>
         </li>
         <!--                <li class="nav-item">-->
         <!--                    <a class="nav-link text-bg-primary" href="/admin/Reader">Reader</a>-->
@@ -35,43 +35,40 @@
     </div>
   </div>
 </nav>
-<div class="container my-5 col-6">
-  <form method="post" action="@{/borpaper/timetotime/{timeL}to{timeR}}">
-    <div class="form">
-      <label>Ngày : </label>
-      <input type="text" class="form-control" id="timeL" required>
-      <label>tới ngày : </label>
-      <input type="text" class="form-control" id="timeR" required>
-      <button type="submit" class="btn btn-primary">Tìm kiếm</button>
-    </div>
-  </form>
-  <form method="post" action="@{/borpaper/outofdate}">
-    <div class="form">
-      <button type="submit" class="btn btn-primary">Phiếu mượn quá hạn</button>
-    </div>
-  </form>
-  <table class="table table-striped table-hover">
+<div class="container my-5 col-6 active">
+    <button type="submit" th:href="@{/borpaper/timetotime}" class="btn btn-primary">Tìm kiếm trong khoảng thời gian</button>
+    <button type="submit" th:href="@{/borpaper/beforetime}" class="btn btn-primary">Tìm kiếm trước thời gian</button>
+    <button type="submit" th:href="@{/borpaper/aftertime}" class="btn btn-primary">Tìm kiếm sau thời gian</button>
+    <button type="submit" th:href="@{/borpaper/outofdate}" class="btn btn-primary">Phiếu mượn quá hạn</button>
+    <table class="table table-striped table-hover">
     <thead>
     <tr>
       <th scope="col">Id</th>
-      <th scope="col">Mã độc giả</th>
       <th scope="col">Ngày mượn</th>
       <th scope="col">Ngày trả</th>
       <th scope="col">Hạn trả</th>
       <th scope="col">Note</th>
       <th scope="col">Trạng thái</th>
+      <th scope="col">Mã thủ thư</th>
+      <th scope="col">Mã độc giả</th>
+        <th scope="col"></th>
     </tr>
     </thead>
-<!--    <tbody>-->
-<!--    <tr th:each="b:${}">-->
-<!--      <td th:text="${b.id}"></td>-->
-<!--      <td th:text="${b.detail}"></td>-->
-<!--      <td th:text="${b.listbook_id}"></td>-->
-<!--    </tr>-->
-<!--    <tr th:each="nB:${nameBook}">-->
-<!--      <td th:text="${nb}"></td>-->
-<!--    </tr>-->
-<!--    </tbody>-->
+    <tbody>
+    <tr th:each="b, i :${borpapers}">
+      <td th:text="${b.id}"></td>
+      <td th:text="${b.borDay}"></td>
+      <td th:text="${b.retDay}"></td>
+      <td th:text="${b.lastDay}"></td>
+      <td th:text="${b.detail}"></td>
+      <td th:text="${b.status}"></td>
+      <td th:text="${librarianId[i.index]}"></td>
+      <td th:text="${readerId[i.index]}"></td>
+      <td>
+        <button class="btn btn-primary" th:href="@{/borpaper/{id}}">Detail</button>
+      </td>
+    </tr>
+    </tbody>
   </table>
 </div>
 </body>

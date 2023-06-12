@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface ListbookServiceImpl {
     List<Listbook> findByNameAuthor(String name);
+    List<Listbook> getAll();
 }

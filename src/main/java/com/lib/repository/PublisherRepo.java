@@ -7,9 +7,5 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 public interface PublisherRepo extends JpaRepository<Publisher, Integer> {
-    ArrayList<Publisher> findAll();
-    Publisher save(Publisher publisherUpdate);
-    long count();
-    Optional<Publisher> findById(Integer id);
 
 }

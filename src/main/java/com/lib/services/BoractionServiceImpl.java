@@ -9,4 +9,5 @@ public interface BoractionServiceImpl {
     List<Boraction> findByBookId(int id);
     List<Boraction> findByLibrarianId(int id);
     List<Boraction> findByReaderId(int id);
+    List<Boraction> getAll();
 }

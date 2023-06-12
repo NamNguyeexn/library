@@ -1,12 +1,8 @@
 package com.lib.controller;
 
-import com.lib.beans.Billbook;
 import com.lib.beans.Book;
 import com.lib.beans.Librarian;
-import com.lib.repository.BookRepo;
-import com.lib.repository.ListbookRepo;
 import com.lib.services.BookServiceImpl;
-import com.lib.services.ListbookServiceImpl;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,12 +19,6 @@ import java.util.List;
 public class BookController {
     @Autowired
     private BookServiceImpl bookService;
-    @Autowired
-    private BookRepo bookRepo;
-    @Autowired
-    private ListbookRepo listbookRepo;
-//    @Autowired
-//    private ListbookServiceImpl listbookService;
     @GetMapping("/all")
     public String getAll(Model model, HttpSession session) {
         Librarian librarian = (Librarian) session.getAttribute("librarian");
@@ -39,8 +29,13 @@ public class BookController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        ArrayList<Book> _book = bookRepo.findAll();
+        List<Book> _book = bookService.getAll();
+        List<String> _name = new ArrayList<>();
+        for (var b : _book) {
+            _name.add(bookService.getName(b.getListbook_id()));
+        }
         model.addAttribute("books", _book);
+        model.addAttribute("name", _name);
         return "book";
     }
     @GetMapping("/findByKey/{key}")
@@ -53,24 +48,13 @@ public class BookController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        List<Book> res = new ArrayList<>();
-        List<String> nameBook = new ArrayList<>();
-        List<String> nameAuthor = new ArrayList<>();
-        for (var b: listbookRepo.findAll()) {
-            if(b.getName().contains(key)) {
-                nameBook.add(b.getName());
-            }
-            if(b.getAuthor().contains(key)) {
-                nameAuthor.add(b.getAuthor());
-            }
+        List<Book> res = bookService.getByKey(key);
+        List<String> _name = new ArrayList<>();
+        for (var b : res) {
+            _name.add(bookService.getName(b.getListbook_id()));
         }
-        for (var i : nameBook) {
-            res.addAll(bookService.findByNameBook(i));
-        }
-        for (var i : nameBook) {
-            res.addAll(bookService.findByNameAuthor(i));
-        }
-        model.addAttribute("books", res).addAttribute("nameBook", nameBook);
+        model.addAttribute("books", res);
+        model.addAttribute("name", _name);
         return "bookFind";
     }
 }

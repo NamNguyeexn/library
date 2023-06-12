@@ -7,7 +7,5 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 public interface ReaderRepo extends JpaRepository<Reader, Integer> {
-    ArrayList<Reader> findAll();
-    Optional<Reader> findById(Integer id);
 
 }

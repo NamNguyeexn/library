@@ -6,25 +6,28 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-primary">
-    <div class="container-lg">
+<nav class="navbar navbar-expand navbar-light bg-primary">
+    <div class="container">
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-5 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link active text-white-50" aria-current="page" href="/home">Home</a>
+                <li class="nav-item ">
+                    <a class="nav-link active text-white-50 col" aria-current="page" href="/librarian">Home</a>
                 </li>
-                <li class="nav-item">
-                    <a class="button nav-link text-white-50" href="/book">Books</a>
+                <li class="nav-item col">
+                    <a class="button nav-link text-white-50 col" href="/book/all">Books</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link text-white-50" href="/borpaper">Borrow Paper</a>
+                <li class="nav-item col">
+                    <a class="button nav-link text-white-50 col" href="/borpaper/all">Borpaper</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link text-white-50" href="/billbook">Billbook</a>
+                <li class="nav-item col">
+                    <a class="button nav-link text-white-50 col" href="/billbook/all">Billbook</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link text-white-50" href="/boraction">Borrow Action</a>
+                <li class="nav-item col">
+                    <a class="button nav-link text-white-50 col" href="/boraction/all">Boraction</a>
                 </li>
+                <!--                <li class="nav-item">-->
+                <!--                    <a class="nav-link text-bg-primary" href="/admin/Reader">Reader</a>-->
+                <!--                </li>-->
             </ul>
             <div>
                 <a class="nav-link text-white-50 position-relative" href="/logout">Đăng xuất</a>
@@ -33,7 +36,7 @@
     </div>
 </nav>
 <div class="container my-5 col-6">
-    <form method="post" action="@{/findById/{key}}">
+    <form method="post" th:action="@{/findById/{key}}">
         <div class="form">
             <label for="key">Từ khóa : </label>
             <input type="text" class="form-control" id="key" required>
@@ -44,15 +47,17 @@
         <thead>
         <tr>
             <th scope="col">Id</th>
-            <th scope="col">Ghi chú</th>
             <th scope="col">Id đầu sách</th>
+            <th scope="col">Tên sách</th>
+            <th scope="col">Chất lượng sách</th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="b:${books}">
+        <tr th:each="b, i : ${books}">
             <td th:text="${b.id}"></td>
-            <td th:text="${b.detail}"></td>
             <td th:text="${b.listbook_id}"></td>
+            <td th:text="${name[i.index]}"></td>
+            <td th:text="${b.detail}"></td>
         </tr>
         </tbody>
     </table>

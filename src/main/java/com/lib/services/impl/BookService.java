@@ -26,13 +26,12 @@ public class BookService implements BookServiceImpl {
     private BillbookRepo billbookRepo;
     @Autowired
     private BillbookServiceImpl billbookService;
-    @Autowired
-    private BookServiceImpl bookService;
+
     @Override
     public List<Book> findByListbookId(int id) {
         try {
             Optional<Listbook> _listbook = listbookRepo.findById(id);
-            if(!_listbook.isPresent()) {
+            if (_listbook.isEmpty()) {
                 return null;
             }
             List<Book> res = new ArrayList<>();
@@ -51,7 +50,7 @@ public class BookService implements BookServiceImpl {
     public List<Book> findByBorpaperId(int id) {
         try {
             Optional<Borpaper> _borpaper = borpaperRepo.findById(id);
-            if(!_borpaper.isPresent()) {
+            if (_borpaper.isEmpty()) {
                 return null;
             }
             List<Book> res = new ArrayList<>();
@@ -70,7 +69,7 @@ public class BookService implements BookServiceImpl {
     public List<Book> findByBillbookId(int id) {
         try {
             Optional<Billbook> _billbook = billbookRepo.findById(id);
-            if(!_billbook.isPresent()) {
+            if (!_billbook.isPresent()) {
                 return null;
             }
             List<Book> res = new ArrayList<>();
@@ -89,7 +88,7 @@ public class BookService implements BookServiceImpl {
     public List<Book> findByNameBook(String name) {
         try {
             Billbook billbook = billbookService.findByNameBillbook(name);
-            List<Book> res = bookService.findByBillbookId(billbook.getId());
+            List<Book> res = findByBillbookId(billbook.getId());
             return res;
         } catch (Exception e) {
             return null;
@@ -108,60 +107,36 @@ public class BookService implements BookServiceImpl {
                 }
         return res;
     }
-//    @Override
-//    public ResponseObject<List<Book>> findByListbookId(int id) {
-//        try {
-//            Optional<Listbook> _listbook = listbookRepo.findById(id);
-//            if(!_listbook.isPresent()) {
-//                return new ResponseObject<>("ma dau sach khong hop le", null);
-//            }
-//            List<Book> res = new ArrayList<>();
-//            for (var b : bookRepo.findAll()) {
-//                if (b.getListbook_id() == id) {
-//                    res.add(b);
-//                }
-//            }
-//            return new ResponseObject<>("lay danh sach thanh cong", null);
-//        } catch (Exception e) {
-//            return new ResponseObject<>(e + " null", null);
-//        }
-//    }
-//
-//    @Override
-//    public ResponseObject<List<Book>> findByBorpaperId(int id) {
-//        try {
-//            Optional<Borpaper> _borpaper = borpaperRepo.findById(id);
-//            if(!_borpaper.isPresent()) {
-//                return new ResponseObject<>("ma giay muon khong hop le", null);
-//            }
-//            List<Book> res = new ArrayList<>();
-//            for (var b : bookRepo.findAll()) {
-//                if (b.getListbook_id() == id) {
-//                    res.add(b);
-//                }
-//            }
-//            return new ResponseObject<>("lay danh sach thanh cong", null);
-//        } catch (Exception e) {
-//            return new ResponseObject<>(e + " null", null);
-//        }
-//    }
-//
-//    @Override
-//    public ResponseObject<List<Book>> findByBillbookId(int id) {
-//        try {
-//            Optional<Billbook> _billbook = billbookRepo.findById(id);
-//            if(!_billbook.isPresent()) {
-//                return new ResponseObject<>("ma hoa don khong hop le", null);
-//            }
-//            List<Book> res = new ArrayList<>();
-//            for (var b : bookRepo.findAll()) {
-//                if (b.getListbook_id() == id) {
-//                    res.add(b);
-//                }
-//            }
-//            return new ResponseObject<>("lay danh sach thanh cong", null);
-//        } catch (Exception e) {
-//            return new ResponseObject<>(e + " null", null);
-//        }
-//    }
+
+    @Override
+    public List<Book> getAll() {
+        return bookRepo.findAll();
+    }
+
+    @Override
+    public List<Book> getByKey(String key) {
+        List<Book> res = new ArrayList<>();
+        List<String> nameBook = new ArrayList<>();
+        List<String> nameAuthor = new ArrayList<>();
+        for (var b : listbookRepo.findAll()) {
+            if (b.getName().contains(key)) {
+                nameBook.add(b.getName());
+            }
+            if (b.getAuthor().contains(key)) {
+                nameAuthor.add(b.getAuthor());
+            }
+        }
+        for (var i : nameBook) {
+            res.addAll(findByNameBook(i));
+        }
+        for (var i : nameBook) {
+            res.addAll(findByNameAuthor(i));
+        }
+        return res;
+    }
+
+    @Override
+    public String getName(int listbookId) {
+        return listbookRepo.findById(listbookId).get().getName();
+    }
 }

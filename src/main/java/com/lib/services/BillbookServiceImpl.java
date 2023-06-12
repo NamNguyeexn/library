@@ -11,4 +11,7 @@ public interface BillbookServiceImpl {
     List<Billbook> findByPublisherId(int id);
     List<Billbook> findByLibrarianId(int id);
     Billbook findByNameBillbook(String name);
+    List<Billbook> getAll();
+    Billbook getById(int id);
+    void addBookByBillbook(Billbook billbook, String nameAuthor, int pubYear, int publisherId, int librarianId);
 }

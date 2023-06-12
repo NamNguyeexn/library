@@ -102,6 +102,11 @@ public class BoractionService implements BoractionServiceImpl {
             return null;
         }
     }
+
+    @Override
+    public List<Boraction> getAll() {
+        return boractionRepo.findAll();
+    }
 //    @Override
 //    public ResponseObject<List<Boraction>> findByBookId(int id) {
 //        try {

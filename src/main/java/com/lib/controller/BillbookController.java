@@ -24,12 +24,6 @@ import java.util.Optional;
 public class BillbookController {
     @Autowired
     private BillbookServiceImpl billbookService;
-    @Autowired
-    private BookRepo bookRepo;
-    @Autowired
-    private BillbookRepo billbookRepo;
-    @Autowired
-    private BookServiceImpl bookService;
     @GetMapping("/all")
     public String getAll(Model model, HttpSession session) {
         Librarian librarian = (Librarian) session.getAttribute("librarian");
@@ -40,12 +34,12 @@ public class BillbookController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        List<Billbook> _billbook = billbookRepo.findAll();
+        List<Billbook> _billbook = billbookService.getAll();
         model.addAttribute("billbooks", _billbook);
         return "billbook";
     }
-    @RequestMapping("/findByLibrarian/{id}")
-    public String getByLibrarianId(@PathVariable("id") int id, Model model, HttpSession session) {
+    @RequestMapping("/findByLibrarian")
+    public String getByLibrarianId(Model model, HttpSession session) {
         Librarian librarian = (Librarian) session.getAttribute("librarian");
         try {
             if (librarian == null) {
@@ -54,6 +48,7 @@ public class BillbookController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        int id = librarian.getId();
         List<Billbook> _billbook = billbookService.findByLibrarianId(id);
         if (_billbook == null) {
             return "redirect:/all";
@@ -78,15 +73,19 @@ public class BillbookController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        Optional<Billbook> _billbook = billbookRepo.findById(billbook.getId());
-        if (!_billbook.isPresent()) {
-            model.addAttribute("loi", "da ton tai hoa don");
-        }
+        Billbook billbook1 = new Billbook();
+        model.addAttribute("billbook", billbook1);
         return "billbookAdd";
     }
     @RequestMapping("/saveBillbook")
-    public String saveBillbook(@ModelAttribute("billbook") Billbook billbook, Model model, HttpSession session) {
+    public String saveBillbook(@ModelAttribute("billbook") Billbook billbook,
+                               @PathVariable("nameAuthor") String nameAuthor,
+                               @PathVariable("pubYear") int pubYear,
+                               @PathVariable("publisherId") int publisherId,
+                               Model model,
+                               HttpSession session) {
         Librarian librarian = (Librarian) session.getAttribute("librarian");
+        model.addAttribute("loi", null);
         try {
             if (librarian == null) {
                 return "redirect:/login";
@@ -94,30 +93,7 @@ public class BillbookController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        int check = 0;
-        for (var b : bookRepo.findAll()) {
-            if (b.getId() == billbook.getId()) {
-                check = 1;
-                break;
-            }
-        }
-        if (check == 0) {
-            billbookRepo.save(billbook);
-//            int count = maxof(bookService.findByName(billbook.getName()).size());
-            int count = 0;
-            for (var b : bookService.findByNameBook(billbook.getName())) {
-                if (b.getId() > count) {
-                    count = b.getId();
-                }
-            }
-            for (int i = 1; i <= billbook.getAmount(); i++) {
-                bookRepo.save(new Book(count + i, "", billbook.getId()));
-            }
-            model.addAttribute("billbook", billbook);
-        }
-        else {
-            model.addAttribute("loi", "da ton tai hoa don");
-        }
+        billbookService.addBookByBillbook(billbook, nameAuthor, pubYear, publisherId, librarian.getId());
         return "billbook";
     }
 

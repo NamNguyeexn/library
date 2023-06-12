@@ -3,7 +3,6 @@ package com.lib.controller;
 import com.lib.beans.Book;
 import com.lib.beans.Borpaper;
 import com.lib.beans.Librarian;
-import com.lib.repository.BorpaperRepo;
 import com.lib.services.BorpaperServiceImpl;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,12 +13,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/borpaper")
 public class BorpaperController {
-    @Autowired
-    private BorpaperRepo borpaperRepo;
     @Autowired
     private BorpaperServiceImpl borpaperService;
     @RequestMapping("/all")
@@ -32,9 +30,48 @@ public class BorpaperController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        List<Borpaper> _borpaper = borpaperRepo.findAll();
+        List<Borpaper> _borpaper = borpaperService.getAll();
+        List<Integer> _librarianId = new ArrayList<>(), _readerId = new ArrayList<>();
         model.addAttribute("borpapers", _borpaper);
+        for (var b : _borpaper) {
+            _librarianId.add(borpaperService.getLibrarianId(b.getId()));
+            _readerId.add(borpaperService.getReaderId(b.getId()));
+        }
+        model.addAttribute("librarianId", _librarianId);
+        model.addAttribute("readerId", _readerId);
         return "borpaper";
+    }
+    @RequestMapping("/find/{id}")
+    public String getById(@PathVariable("id") int id, Model model, HttpSession session) {
+        Librarian librarian = (Librarian) session.getAttribute("librarian");
+        try {
+            if (librarian == null) {
+                return "redirect:/login";
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Borpaper _borpaper = borpaperService.getById(id);
+        int _librarianId = borpaperService.getLibrarianId(_borpaper.getId());
+        int _readerId = borpaperService.getReaderId(_borpaper.getId());
+        model.addAttribute("borpaper", _borpaper);
+        model.addAttribute("librarianId", _librarianId);
+        model.addAttribute("readerId", _readerId);
+        List<Book> books = borpaperService.getBookInBorpaper(_borpaper.getId());
+        model.addAttribute("books", books);
+        return "borpaperFindById";
+    }
+    @RequestMapping("/timetotime")
+    public String getTimetoTimeFrm(HttpSession session) {
+        Librarian librarian = (Librarian) session.getAttribute("librarian");
+        try {
+            if (librarian == null) {
+                return "redirect:/login";
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "borpaperTimetoTime";
     }
     @RequestMapping("/timetotime/{timeL}to{timeR}")
     public String getTimetoTime (@PathVariable("timeL") String timeL, @PathVariable("timeR") String timeR, Model model, HttpSession session) {
@@ -48,7 +85,20 @@ public class BorpaperController {
         }
         List<Borpaper> _borpapers = borpaperService.getBorpapersByTimeToTime(timeL, timeR);
         model.addAttribute("borpapers", _borpapers);
+        model.addAttribute("str", " từ " + timeL + " đến " + timeR);
         return "borpaperTimetoTime";
+    }
+    @RequestMapping("/beforetime")
+    public String getBeforeTimeFrm(HttpSession session) {
+        Librarian librarian = (Librarian) session.getAttribute("librarian");
+        try {
+            if (librarian == null) {
+                return "redirect:/login";
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "borpaperBeforeTime";
     }
     @RequestMapping("/beforetime/{timeR}")
     public String getBeforeTime (@PathVariable("timeR") String timeR, Model model, HttpSession session) {
@@ -62,10 +112,23 @@ public class BorpaperController {
         }
         List<Borpaper> _borpapers = borpaperService.getBorpaperByTimeEnd(timeR);
         model.addAttribute("borpapers", _borpapers);
+        model.addAttribute("str", " trước ngày " + timeR);
         return "borpaperBeforeTime";
     }
+    @RequestMapping("/aftertime")
+    public String getAfterTimeFrm(HttpSession session) {
+        Librarian librarian = (Librarian) session.getAttribute("librarian");
+        try {
+            if (librarian == null) {
+                return "redirect:/login";
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "borpaperAfterTime";
+    }
     @RequestMapping("/aftertime/{timeL}")
-    public String getTimetoTime (@PathVariable("timeL") String timeL, Model model, HttpSession session) {
+    public String getAfterTime (@PathVariable("timeL") String timeL, Model model, HttpSession session) {
         Librarian librarian = (Librarian) session.getAttribute("librarian");
         try {
             if (librarian == null) {
@@ -75,7 +138,7 @@ public class BorpaperController {
             e.printStackTrace();
         }
         List<Borpaper> _borpapers = borpaperService.getBorpaperByTimeStart(timeL);
-        model.addAttribute("borpapers", _borpapers);
+        model.addAttribute("str", " sau ngày " + timeL);
         return "borpaperAfterTime";
     }
     @RequestMapping("/outofdate")
@@ -89,7 +152,7 @@ public class BorpaperController {
             e.printStackTrace();
         }
         List<Borpaper> _borpapers = borpaperService.getBorpaperOutOfDate();
-        model.addAttribute("borpapers", _borpapers);
+        model.addAttribute("str", " quá hạn");
         return "borpaperOutOfDate";
     }
     @RequestMapping("/findByReaderId/{id}")
@@ -104,20 +167,7 @@ public class BorpaperController {
         }
         List<Borpaper> _borpapers = borpaperService.findByReaderId(id);
         model.addAttribute("borpapers", _borpapers);
+        model.addAttribute("str", " của bạn đọc có mã : " + String.valueOf(id));
         return "borpaperFindByReaderId";
     }
-//    @RequestMapping("/find{idL}{idR}")
-//    public String buttonFind (@PathVariable("idL") int idL, @PathVariable("idR") int idR, Model model, HttpSession session) {
-//        Librarian librarian = (Librarian) session.getAttribute("librarian");
-//        try {
-//            if (librarian == null) {
-//                return "redirect:/login";
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        if (idL.) {
-//
-//        }
-//    }
 }

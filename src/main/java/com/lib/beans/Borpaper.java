@@ -19,7 +19,7 @@ public class Borpaper {
     @Column(name = "last_day", nullable = false)
     private String lastDay;
     @Column(name = "detail", nullable = false)
-    private String detail;
+    private String detail; //danh sach id sach
     @Column(name = "status", nullable = false)
     private String status;
 

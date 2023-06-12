@@ -22,4 +22,9 @@ public class ListbookService implements ListbookServiceImpl {
         }
         return listbooks;
     }
+
+    @Override
+    public List<Listbook> getAll() {
+        return listbookRepo.findAll();
+    }
 }

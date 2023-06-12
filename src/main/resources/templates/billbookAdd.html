@@ -2,28 +2,28 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="Billbook add" content="width=device-width, initial-scale=1">
+  <meta name="billbook add" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-primary">
-  <div class="container-lg">
+<nav class="navbar navbar-expand navbar-light bg-primary">
+  <div class="container">
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-5 mb-lg-0">
-        <li class="nav-item">
-          <a class="nav-link active text-white-50" aria-current="page" href="/home">Home</a>
+        <li class="nav-item ">
+          <a class="nav-link active text-white-50 col" aria-current="page" href="/librarian">Home</a>
         </li>
-        <li class="nav-item">
-          <a class="button nav-link text-white-50" href="/book">Books</a>
+        <li class="nav-item col">
+          <a class="button nav-link text-white-50 col" href="/book/all">Books</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link text-white-50" href="/borpaper">Borrow Paper</a>
+        <li class="nav-item col">
+          <a class="button nav-link text-white-50 col" href="/borpaper/all">Borpaper</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link text-white-50" href="/billbook">Billbook</a>
+        <li class="nav-item col">
+          <a class="button nav-link text-white-50 col" href="/billbook/all">Billbook</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link text-white-50" href="/boraction">Borrow Action</a>
+        <li class="nav-item col">
+          <a class="button nav-link text-white-50 col" href="/boraction/all">Boraction</a>
         </li>
         <!--                <li class="nav-item">-->
         <!--                    <a class="nav-link text-bg-primary" href="/admin/Reader">Reader</a>-->
@@ -45,6 +45,18 @@
     <div class="mb-3">
       <label for="name" class="form-label">Tên sách : </label>
       <input type="text" class="form-control" id="name" name="name" th:field="*{name}" />
+    </div>
+    <div class="mb-3">
+      <label for="name" class="form-label">Tên tác giả : </label>
+      <input type="text" class="form-control" id="nameAuthor" name="nameAuthor" th:field="${nameAuthor}" />
+    </div>
+    <div class="mb-3">
+      <label for="name" class="form-label">Năm xuất bản : </label>
+      <input type="text" class="form-control" id="pubYear" name="pubYear" th:field="${pubYear}" />
+    </div>
+    <div class="mb-3">
+      <label for="name" class="form-label">Mã nhà xuất bản : </label>
+      <input type="text" class="form-control" id="publisherId" name="publisherId" th:field="${publisherId}" />
     </div>
     <div class="mb-3">
       <label for="name" class="form-label">Giá : </label>

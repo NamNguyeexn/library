@@ -7,6 +7,7 @@ import com.lib.services.LibrarianServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 @Service
 public class LibrarianService implements LibrarianServiceImpl {
@@ -31,6 +32,11 @@ public class LibrarianService implements LibrarianServiceImpl {
         } catch (Exception e) {
             return null;
         }
+    }
+
+    @Override
+    public List<Librarian> getAll() {
+        return librarianRepo.findAll();
     }
 //    @Override
 //    public ResponseObject<Librarian> getLibrarianByEmailAndPassword(String username, String password) {
