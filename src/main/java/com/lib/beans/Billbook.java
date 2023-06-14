@@ -1,9 +1,6 @@
 package com.lib.beans;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "billbook")
@@ -23,11 +20,17 @@ public class Billbook {
     private int totalCost;
     @Column(name = "librarian_id", nullable = false)
     private int librarianId;
+    @Column(name = "name_author", nullable = false)
+    private String nameAuthor;
+    @Column(name = "pub_year", nullable = false)
+    private int pubYear;
+    @Column(name = "publisher_id", nullable = false)
+    private int publisherId;
 
     public Billbook() {
     }
 
-    public Billbook(int id, String name, int cost, int amount, int price, int totalCost, int librarianId) {
+    public Billbook(int id, String name, int cost, int amount, int price, int totalCost, int librarianId, String nameAuthor, int pubYear, int publisherId) {
         this.id = id;
         this.name = name;
         this.cost = cost;
@@ -35,6 +38,9 @@ public class Billbook {
         this.price = price;
         this.totalCost = totalCost;
         this.librarianId = librarianId;
+        this.nameAuthor = nameAuthor;
+        this.pubYear = pubYear;
+        this.publisherId = publisherId;
     }
 
     public int getId() {
@@ -91,5 +97,29 @@ public class Billbook {
 
     public void setTotalCost(int totalCost) {
         this.totalCost = totalCost;
+    }
+
+    public String getNameAuthor() {
+        return nameAuthor;
+    }
+
+    public void setNameAuthor(String nameAuthor) {
+        this.nameAuthor = nameAuthor;
+    }
+
+    public int getPubYear() {
+        return pubYear;
+    }
+
+    public void setPubYear(int pubYear) {
+        this.pubYear = pubYear;
+    }
+
+    public int getPublisherId() {
+        return publisherId;
+    }
+
+    public void setPublisherId(int publisherId) {
+        this.publisherId = publisherId;
     }
 }

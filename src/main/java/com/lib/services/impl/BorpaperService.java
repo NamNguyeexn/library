@@ -185,7 +185,8 @@ public class BorpaperService implements BorpaperServiceImpl {
     @Override
     public List<Book> getBookInBorpaper(int borpaperId) {
         List<Book> res = new ArrayList<>();
-        List<String> lstIdBook = List.of(borpaperRepo.findById(borpaperId).get().getDetail().split(", "));
+        String lBook = borpaperRepo.findById(borpaperId).get().getDetail();
+        String[] lstIdBook = lBook.replace(" ", "").trim().split(",");
         for (var s : lstIdBook) {
             res.add(bookRepo.findById(Integer.parseInt(s)).get());
         }

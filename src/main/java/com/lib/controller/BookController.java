@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,8 +39,8 @@ public class BookController {
         model.addAttribute("name", _name);
         return "book";
     }
-    @GetMapping("/findByKey/{key}")
-    public String findByKey(@PathVariable("key") String key, Model model, HttpSession session) {
+    @RequestMapping("/findByKey/{key}")
+    public String findByKey(@PathVariable(name = "key") String key, Model model, HttpSession session) {
         Librarian librarian = (Librarian) session.getAttribute("librarian");
         try {
             if (librarian == null) {
@@ -49,6 +50,8 @@ public class BookController {
             e.printStackTrace();
         }
         List<Book> res = bookService.getByKey(key);
+//        System.out.println("TU KHOA TIM KIEM " + key + " CHO RA " + res.size() + " KET QUA");
+        System.out.printf("TU KHOA TIM KIEM %s CHO RA %d KET QUA", key, res.size());
         List<String> _name = new ArrayList<>();
         for (var b : res) {
             _name.add(bookService.getName(b.getListbook_id()));

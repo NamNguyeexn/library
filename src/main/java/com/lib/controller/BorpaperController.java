@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 @RequestMapping("/borpaper")
@@ -61,7 +60,7 @@ public class BorpaperController {
         model.addAttribute("books", books);
         return "borpaperFindById";
     }
-    @RequestMapping("/timetotime")
+    @RequestMapping("/timetotime/frm")
     public String getTimetoTimeFrm(HttpSession session) {
         Librarian librarian = (Librarian) session.getAttribute("librarian");
         try {
@@ -71,7 +70,7 @@ public class BorpaperController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return "borpaperTimetoTime";
+        return "borpaperTimetoTimeFrm";
     }
     @RequestMapping("/timetotime/{timeL}to{timeR}")
     public String getTimetoTime (@PathVariable("timeL") String timeL, @PathVariable("timeR") String timeR, Model model, HttpSession session) {
@@ -86,9 +85,9 @@ public class BorpaperController {
         List<Borpaper> _borpapers = borpaperService.getBorpapersByTimeToTime(timeL, timeR);
         model.addAttribute("borpapers", _borpapers);
         model.addAttribute("str", " từ " + timeL + " đến " + timeR);
-        return "borpaperTimetoTime";
+        return "borpaperTimetoTimeFrm";
     }
-    @RequestMapping("/beforetime")
+    @RequestMapping("/beforetime/frm")
     public String getBeforeTimeFrm(HttpSession session) {
         Librarian librarian = (Librarian) session.getAttribute("librarian");
         try {
@@ -98,7 +97,7 @@ public class BorpaperController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return "borpaperBeforeTime";
+        return "borpaperBeforeTimeFrm";
     }
     @RequestMapping("/beforetime/{timeR}")
     public String getBeforeTime (@PathVariable("timeR") String timeR, Model model, HttpSession session) {
@@ -113,9 +112,9 @@ public class BorpaperController {
         List<Borpaper> _borpapers = borpaperService.getBorpaperByTimeEnd(timeR);
         model.addAttribute("borpapers", _borpapers);
         model.addAttribute("str", " trước ngày " + timeR);
-        return "borpaperBeforeTime";
+        return "borpaperBeforeTimeFrm";
     }
-    @RequestMapping("/aftertime")
+    @RequestMapping("/aftertime/frm")
     public String getAfterTimeFrm(HttpSession session) {
         Librarian librarian = (Librarian) session.getAttribute("librarian");
         try {
@@ -125,7 +124,7 @@ public class BorpaperController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return "borpaperAfterTime";
+        return "borpaperAfterTimeFrm";
     }
     @RequestMapping("/aftertime/{timeL}")
     public String getAfterTime (@PathVariable("timeL") String timeL, Model model, HttpSession session) {
@@ -139,9 +138,9 @@ public class BorpaperController {
         }
         List<Borpaper> _borpapers = borpaperService.getBorpaperByTimeStart(timeL);
         model.addAttribute("str", " sau ngày " + timeL);
-        return "borpaperAfterTime";
+        return "borpaperAfterTimeFrm";
     }
-    @RequestMapping("/outofdate")
+    @RequestMapping("/outofdate/frm")
     public String getTimetoTime (Model model, HttpSession session) {
         Librarian librarian = (Librarian) session.getAttribute("librarian");
         try {
@@ -153,7 +152,7 @@ public class BorpaperController {
         }
         List<Borpaper> _borpapers = borpaperService.getBorpaperOutOfDate();
         model.addAttribute("str", " quá hạn");
-        return "borpaperOutOfDate";
+        return "borpaperOutOfDateFrm";
     }
     @RequestMapping("/findByReaderId/{id}")
     public String findByReaderId (@PathVariable("id") int id, Model model, HttpSession session) {

@@ -36,10 +36,10 @@
     </div>
 </nav>
 <div class="container my-5 col-6">
-    <form method="post" th:action="@{/findById/{key}}">
+    <form method="post" th:action="@{/book/findByKey/{key}}">
         <div class="form">
             <label for="key">Từ khóa : </label>
-            <input type="text" class="form-control" id="key" required>
+            <input type="text" class="form-control" id="key" name="key" required>
             <button type="submit" class="btn btn-primary">Search</button>
         </div>
     </form>

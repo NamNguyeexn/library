@@ -86,13 +86,9 @@ public class BookService implements BookServiceImpl {
 
     @Override
     public List<Book> findByNameBook(String name) {
-        try {
-            Billbook billbook = billbookService.findByNameBillbook(name);
-            List<Book> res = findByBillbookId(billbook.getId());
-            return res;
-        } catch (Exception e) {
-            return null;
-        }
+        Billbook billbook = billbookService.findByNameBillbook(name);
+        List<Book> res = findByBillbookId(billbook.getId());
+        return res;
     }
 
     @Override

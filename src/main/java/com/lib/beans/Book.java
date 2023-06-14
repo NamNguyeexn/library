@@ -11,12 +11,12 @@ public class Book {
     @Id
     @Column(name = "id", nullable = false)
     private int id;
-    @Column(name = "default", nullable = false)
-    private String detail;
+    @Column(name = "detail", nullable = false)
+    private int detail;
     @Column(name = "listbook_id", nullable = false)
     private int listbookId;
 
-    public Book(int id, String detail, int listbook_id) {
+    public Book(int id, int detail, int listbook_id) {
         this.id = id;
         this.detail = detail;
         this.listbookId = listbook_id;
@@ -33,11 +33,11 @@ public class Book {
         this.id = id;
     }
 
-    public String getDetail() {
+    public int getDetail() {
         return detail;
     }
 
-    public void setDetail(String detail) {
+    public void setDetail(int detail) {
         this.detail = detail;
     }
 

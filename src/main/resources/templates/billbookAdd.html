@@ -48,15 +48,15 @@
     </div>
     <div class="mb-3">
       <label for="name" class="form-label">Tên tác giả : </label>
-      <input type="text" class="form-control" id="nameAuthor" name="nameAuthor" th:field="${nameAuthor}" />
+      <input type="text" class="form-control" id="nameAuthor" name="nameAuthor" th:field="*{nameAuthor}" />
     </div>
     <div class="mb-3">
       <label for="name" class="form-label">Năm xuất bản : </label>
-      <input type="text" class="form-control" id="pubYear" name="pubYear" th:field="${pubYear}" />
+      <input type="text" class="form-control" id="pubYear" name="pubYear" th:field="*{pubYear}" />
     </div>
     <div class="mb-3">
       <label for="name" class="form-label">Mã nhà xuất bản : </label>
-      <input type="text" class="form-control" id="publisherId" name="publisherId" th:field="${publisherId}" />
+      <input type="text" class="form-control" id="publisherId" name="publisherId" th:field="*{publisherId}" />
     </div>
     <div class="mb-3">
       <label for="name" class="form-label">Giá : </label>

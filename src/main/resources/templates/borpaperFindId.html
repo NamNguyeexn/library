@@ -40,7 +40,7 @@
     <button type="submit" th:href="@{/borpaper/beforetime}" class="btn btn-primary">Tìm kiếm trước thời gian</button>
     <button type="submit" th:href="@{/borpaper/aftertime}" class="btn btn-primary">Tìm kiếm sau thời gian</button>
     <button type="submit" th:href="@{/borpaper/outofdate}" class="btn btn-primary">Phiếu mượn quá hạn</button>
-    <card class="card">
+    <div class="block">
         <label>Id : </label>
         <span th:text="${borpaper.id}"></span> <br>
         <label>Ngày mượn : </label>
@@ -74,7 +74,7 @@
             </tr>
             </tbody>
         </table>
-    </card>
+    </div>
 </div>
 </body>
 </html>

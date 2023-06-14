@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="book find" content="width=device-width, initial-scale=1">
+  <meta name="" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
@@ -22,6 +22,12 @@
         <li class="nav-item col">
           <a class="button nav-link text-white-50 col" href="/billbook/all">Billbook</a>
         </li>
+        <li class="nav-item col">
+          <a class="button nav-link text-white-50 col" href="/boraction/all">Boraction</a>
+        </li>
+        <!--                <li class="nav-item">-->
+        <!--                    <a class="nav-link text-bg-primary" href="/admin/Reader">Reader</a>-->
+        <!--                </li>-->
       </ul>
       <div>
         <a class="nav-link text-white-50 position-relative" href="/logout">Đăng xuất</a>
@@ -30,24 +36,15 @@
   </div>
 </nav>
 <div class="container my-5 col-6">
-  <table class="table table-striped table-hover">
-    <thead>
-    <tr>
-      <th scope="col">Id</th>
-      <th scope="col">Id đầu sách</th>
-      <th scope="col">Tên sách</th>
-      <th scope="col">Chất lượng sách</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="b , i:${books}">
-      <td th:text="${b.id}"></td>
-      <td th:text="${b.listbook_id}"></td>
-      <td th:text="${name[i.index]}"></td>
-      <td th:text="${b.detail}"></td>
-    </tr>
-    </tbody>
-  </table>
+  <label>Danh sách phiếu mượn </label>
+  <span th:text="${str}"></span><br>
+  <form method="post" th:action="@{/borpaper/aftertime/{timeL}}">
+    <div class="form">
+      <label>Sau ngày : </label>
+      <input type="text" class="form-control" id="timeL" required>
+      <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+    </div>
+  </form>
 </div>
 </body>
 </html>

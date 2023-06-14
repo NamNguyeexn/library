@@ -22,6 +22,7 @@ public class BillbookService implements BillbookServiceImpl {
     private BookRepo bookRepo;
     @Autowired
     private ListbookRepo listbookRepo;
+    private int status = 100;
 
     @Override
     public List<Billbook> findByPublisherId(int id) {
@@ -51,17 +52,10 @@ public class BillbookService implements BillbookServiceImpl {
     @Override
     public List<Billbook> findByLibrarianId(int id) {
         try {
-            Optional<List<Billbook>> _billbooks = Optional.ofNullable(billbookRepo.findAll());
-            if (!_billbooks.isPresent()) {
-                return null;
-            }
-            Optional<Librarian> _librarian = librarianRepo.findById(id);
-            if (!_librarian.isPresent()) {
-                return null;
-            }
+            List<Billbook> _billbooks = billbookRepo.findAll();
             List<Billbook> res = new ArrayList<>();
-            for (var b : _billbooks.get()) {
-                if (b.getId() == id)
+            for (var b : _billbooks) {
+                if (b.getLibrarianId() == id)
                     res.add(b);
             }
             if (res.size() == 0) {
@@ -94,12 +88,32 @@ public class BillbookService implements BillbookServiceImpl {
     }
 
     @Override
-    public void addBookByBillbook(Billbook billbook, String nameAuthor, int pubYear, int publisherId, int librarianId) {
+    public void addBookByBillbook(Billbook billbook) {
         billbookRepo.save(billbook);
-        int count = (int) bookRepo.count();
-        for (int i = 1; i <= billbook.getAmount(); i++) {
-            bookRepo.save(new Book(count + i, billbook.getName(), billbook.getId()));
+        Listbook listbook = createListbook(billbook);
+        listbookRepo.save(listbook);
+        for (int i = 1; i <= listbook.getAmount(); i++) {
+            Book book = createBook(listbook);
+            bookRepo.save(book);
         }
-        listbookRepo.save(new Listbook((int)listbookRepo.count() + 1, billbook.getName(), nameAuthor, pubYear, billbook.getPrice(), billbook.getAmount(), billbook.getId(), publisherId, librarianId));
+    }
+    private Listbook createListbook(Billbook billbook) {
+        int countl = (int) listbookRepo.count();
+        System.out.println("SO LUONG DAU SACH LA " + countl);
+        return new Listbook(countl + 1,
+                billbook.getName(),
+                billbook.getNameAuthor(),
+                billbook.getPubYear(),
+                billbook.getPrice(),
+                billbook.getAmount(),
+                billbook.getId(),
+                billbook.getPublisherId(),
+                billbook.getLibrarianId());
+
+    }
+    private Book createBook(Listbook listbook) {
+        int countb = (int) bookRepo.count();
+        System.out.println("SO LUONG SACH LA " + countb);
+        return new Book(countb + 1, status, listbook.getId());
     }
 }

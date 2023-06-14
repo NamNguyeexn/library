@@ -1,23 +1,15 @@
 package com.lib.controller;
 
 import com.lib.beans.Billbook;
-//import com.lib.beans.ResponseObject;
-import com.lib.beans.Book;
 import com.lib.beans.Librarian;
-import com.lib.repository.BillbookRepo;
-import com.lib.repository.BookRepo;
 import com.lib.services.BillbookServiceImpl;
-import com.lib.services.BookServiceImpl;
-import com.lib.services.impl.BillbookService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 @RequestMapping("/billbook")
@@ -51,20 +43,17 @@ public class BillbookController {
         int id = librarian.getId();
         List<Billbook> _billbook = billbookService.findByLibrarianId(id);
         if (_billbook == null) {
-            return "redirect:/all";
+            return "redirect:/billbook/all";
         } else {
-            List<Billbook> res = new ArrayList<>();
-            for (var b : _billbook) {
-                if(b.getLibrarianId() == id) {
-                    res.add(b);
-                }
-            }
-            model.addAttribute("billbooks", res);
+            model.addAttribute("billbooks", _billbook);
+            System.out.println("SO LUONG HOA DON LA " + _billbook.size());
             return "billbookFindById";
         }
     }
     @RequestMapping("/addBillbook")
-    public String addBillbook(@ModelAttribute("billbook") Billbook billbook, Model model, HttpSession session) {
+    public String addBillbook(@ModelAttribute("billbook") Billbook billbook,
+                              Model model,
+                              HttpSession session) {
         Librarian librarian = (Librarian) session.getAttribute("librarian");
         try {
             if (librarian == null) {
@@ -79,9 +68,6 @@ public class BillbookController {
     }
     @RequestMapping("/saveBillbook")
     public String saveBillbook(@ModelAttribute("billbook") Billbook billbook,
-                               @PathVariable("nameAuthor") String nameAuthor,
-                               @PathVariable("pubYear") int pubYear,
-                               @PathVariable("publisherId") int publisherId,
                                Model model,
                                HttpSession session) {
         Librarian librarian = (Librarian) session.getAttribute("librarian");
@@ -93,8 +79,8 @@ public class BillbookController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        billbookService.addBookByBillbook(billbook, nameAuthor, pubYear, publisherId, librarian.getId());
-        return "billbook";
+        billbookService.addBookByBillbook(billbook);
+        return "redirect:/billbook/all";
     }
 
 }
