@@ -6,6 +6,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
+import java.time.LocalDate;
+import java.util.Date;
+
 @Entity
 @Table(name = "borpaper")
 public class Borpaper {
@@ -13,11 +16,11 @@ public class Borpaper {
     @Column(name = "id", nullable = false)
     private int id;
     @Column(name = "bor_day", nullable = false)
-    private String borDay;
+    private LocalDate borDay;
     @Column(name = "ret_day", nullable = false)
-    private String retDay;
+    private LocalDate retDay;
     @Column(name = "last_day", nullable = false)
-    private String lastDay;
+    private LocalDate lastDay;
     @Column(name = "detail", nullable = false)
     private String detail; //danh sach id sach
     @Column(name = "status", nullable = false)
@@ -26,7 +29,7 @@ public class Borpaper {
     public Borpaper() {
     }
 
-    public Borpaper(int id, String borDay, String retDay, String lastDay, String detail, String status) {
+    public Borpaper(int id, LocalDate borDay, LocalDate retDay, LocalDate lastDay, String detail, String status) {
         this.id = id;
         this.borDay = borDay;
         this.retDay = retDay;
@@ -43,27 +46,27 @@ public class Borpaper {
         this.id = id;
     }
 
-    public String getBorDay() {
+    public LocalDate getBorDay() {
         return borDay;
     }
 
-    public void setBorDay(String borDay) {
+    public void setBorDay(LocalDate borDay) {
         this.borDay = borDay;
     }
 
-    public String getRetDay() {
+    public LocalDate getRetDay() {
         return retDay;
     }
 
-    public void setRetDay(String retDay) {
+    public void setRetDay(LocalDate retDay) {
         this.retDay = retDay;
     }
 
-    public String getLastDay() {
+    public LocalDate getLastDay() {
         return lastDay;
     }
 
-    public void setLastDay(String lastDay) {
+    public void setLastDay(LocalDate lastDay) {
         this.lastDay = lastDay;
     }
 

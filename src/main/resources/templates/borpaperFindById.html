@@ -36,10 +36,41 @@
     </div>
 </nav>
 <div class="container my-5 col-6 active">
-    <button type="submit" th:href="@{/borpaper/timetotime}" class="btn btn-primary">Tìm kiếm trong khoảng thời gian</button>
-    <button type="submit" th:href="@{/borpaper/beforetime}" class="btn btn-primary">Tìm kiếm trước thời gian</button>
-    <button type="submit" th:href="@{/borpaper/aftertime}" class="btn btn-primary">Tìm kiếm sau thời gian</button>
-    <button type="submit" th:href="@{/borpaper/outofdate}" class="btn btn-primary">Phiếu mượn quá hạn</button>
+    <form method="post" th:action="@{/borpaper/addBorpaper}">
+        <div class="form">
+            <button type="submit" class="btn btn-primary">Thêm phiếu mượn</button>
+        </div>
+    </form>
+    <div class="row">
+        <div class="col-3">
+            <form method="post" th:action="@{/borpaper/timetotime/frm}">
+                <div class="form">
+                    <button type="submit" class="btn btn-primary">Tìm kiếm trong khoảng thời gian</button>
+                </div>
+            </form>
+        </div>
+        <div class="col-3">
+            <form method="post" th:action="@{/borpaper/beforetime/frm}">
+                <div class="form">
+                    <button type="submit" class="btn btn-primary">Tìm kiếm trước thời gian</button>
+                </div>
+            </form>
+        </div>
+        <div class="col-3">
+            <form method="post" th:action="@{/borpaper/aftertime/frm}">
+                <div class="form">
+                    <button type="submit" class="btn btn-primary">Tìm kiếm sau thời gian</button>
+                </div>
+            </form>
+        </div>
+        <div class="col-3">
+            <form method="post" th:action="@{/borpaper/outofdate/frm}">
+                <div class="form">
+                    <button type="submit" class="btn btn-primary">Phiếu mượn quá hạn</button>
+                </div>
+            </form>
+        </div>
+    </div>
     <div class="block">
         <label>Id : </label>
         <span th:text="${borpaper.id}"></span> <br>

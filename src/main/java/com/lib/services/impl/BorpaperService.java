@@ -2,16 +2,16 @@ package com.lib.services.impl;
 
 import com.lib.beans.Book;
 import com.lib.beans.Borpaper;
-//import com.lib.beans.ResponseObject;
-import com.lib.beans.Reader;
 import com.lib.repository.BookRepo;
 import com.lib.repository.BoractionRepo;
 import com.lib.repository.BorpaperRepo;
+import com.lib.repository.ListbookRepo;
 import com.lib.services.BoractionServiceImpl;
 import com.lib.services.BorpaperServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -25,32 +25,19 @@ public class BorpaperService implements BorpaperServiceImpl {
     @Autowired
     private BookRepo bookRepo;
     @Autowired
+    private ListbookRepo listbookRepo;
+    @Autowired
     private BoractionServiceImpl boractionService;
-    private String xuLyNgayThang(String s) {
-        String[] res = s.split("/");
-        if (res[0].length() < 2) {
-            res[0] = '0' + res[0];
-        }
-        if (res[1].length() < 2) {
-            res[1] = '0' + res[1];
-        }
-        return res[0] + res[1] + res[2];
-    }
     @Override
-    public List<Borpaper> getBorpapersByTimeToTime(String lDay, String rDay) {
+    public List<Borpaper> getBorpapersByTimeToTime(LocalDate lDay, LocalDate rDay) {
         try {
-            lDay = xuLyNgayThang(lDay);
-            rDay = xuLyNgayThang(rDay);
             if (lDay.compareTo(rDay) > 0) {
                 return null;
             }
-            Optional<List<Borpaper>> _borpapers = Optional.of(borpaperRepo.findAll());
-//            if (!_borpapers.isPresent()) {
-//                return null;
-//            }
+            List<Borpaper> _borpapers = borpaperRepo.findAll();
             List<Borpaper> res = new ArrayList<>();
-            for (var bp : _borpapers.get()) {
-                if (xuLyNgayThang(bp.getBorDay()).compareTo(lDay) > 0 && xuLyNgayThang(bp.getLastDay()).compareTo(rDay) < 0) {
+            for (var bp : _borpapers) {
+                if (bp.getBorDay().compareTo(lDay) > 0 && bp.getLastDay().compareTo(rDay) < 0) {
                     res.add(bp);
                 }
             }
@@ -64,16 +51,12 @@ public class BorpaperService implements BorpaperServiceImpl {
     }
 
     @Override
-    public List<Borpaper> getBorpaperByTimeEnd(String rDay) {
+    public List<Borpaper> getBorpaperByTimeEnd(LocalDate rDay) {
         try {
-            rDay = xuLyNgayThang(rDay);
-            Optional<List<Borpaper>> _borpapers = Optional.of(borpaperRepo.findAll());
-//            if (!_borpapers.isPresent()) {
-//                return null;
-//            }
+            List<Borpaper> _borpapers = borpaperRepo.findAll();
             List<Borpaper> res = new ArrayList<>();
-            for (var bp : _borpapers.get()) {
-                if (xuLyNgayThang(bp.getLastDay()).compareTo(rDay) < 0) {
+            for (var bp : _borpapers) {
+                if (bp.getLastDay().compareTo(rDay) > 0) {
                     res.add(bp);
                 }
             }
@@ -87,16 +70,12 @@ public class BorpaperService implements BorpaperServiceImpl {
     }
 
     @Override
-    public List<Borpaper> getBorpaperByTimeStart(String lDay) {
+    public List<Borpaper> getBorpaperByTimeStart(LocalDate lDay) {
         try {
-            lDay = xuLyNgayThang(lDay);
-            Optional<List<Borpaper>> _borpapers = Optional.of(borpaperRepo.findAll());
-//            if (!_borpapers.isPresent()) {
-//                return new ResponseObject<>("danh sach giay muon sach trong", null);
-//            }
+            List<Borpaper> _borpapers = borpaperRepo.findAll();
             List<Borpaper> res = new ArrayList<>();
-            for (var bp : _borpapers.get()) {
-                if (xuLyNgayThang(bp.getBorDay()).compareTo(lDay) > 0) {
+            for (var bp : _borpapers) {
+                if (bp.getBorDay().compareTo(lDay) > 0) {
                     res.add(bp);
                 }
             }
@@ -112,16 +91,15 @@ public class BorpaperService implements BorpaperServiceImpl {
     @Override
     public List<Borpaper> getBorpaperOutOfDate() {
         try {
-            Optional<List<Borpaper>> _borpapers = Optional.of(borpaperRepo.findAll());
-//            if (!_borpapers.isPresent()) {
-//                return new ResponseObject<>("danh sach giay muon sach trong", null);
-//            }
+            List<Borpaper> _borpapers = borpaperRepo.findAll();
             List<Borpaper> res = new ArrayList<>();
-            for (var bp : _borpapers.get()) {
-                if (xuLyNgayThang(bp.getLastDay()).compareTo(xuLyNgayThang(bp.getRetDay())) < 0 ||
-                        bp.getRetDay() == null) {
+            for (var bp : _borpapers) {
+                if (bp.getLastDay().compareTo(bp.getRetDay()) < 0) {
                     res.add(bp);
                 }
+//                if(bp.getStatus().compareTo("out") == 0) {
+//                    res.add(bp);
+//                }
             }
             if (res.size() == 0) {
                 return null;
@@ -191,5 +169,33 @@ public class BorpaperService implements BorpaperServiceImpl {
             res.add(bookRepo.findById(Integer.parseInt(s)).get());
         }
         return res;
+    }
+
+    @Override
+    public String getName(int listbookId) {
+        return listbookRepo.findById(listbookId).get().getName();
+    }
+
+    @Override
+    public void saveBorpaper(Borpaper borpaper) {
+        borpaperRepo.save(borpaper);
+    }
+
+    @Override
+    public List<Integer> getAllReaderId(List<Borpaper> borpapers) {
+        List<Integer> _readerId = new ArrayList<>();
+        for (var b : borpapers) {
+            _readerId.add(getLibrarianId(b.getId()));
+        }
+        return _readerId;
+    }
+
+    @Override
+    public List<Integer> getAllLibrarianId(List<Borpaper> borpapers) {
+        List<Integer> _librarianId = new ArrayList<>();
+        for (var b : borpapers) {
+            _librarianId.add(getLibrarianId(b.getId()));
+        }
+        return _librarianId;
     }
 }

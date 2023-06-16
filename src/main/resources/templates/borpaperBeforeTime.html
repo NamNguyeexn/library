@@ -36,12 +36,10 @@
   </div>
 </nav>
 <div class="container my-5 col-6">
-  <label>Danh sách phiếu mượn </label>
-  <span th:text="${str}"></span><br>
-  <form method="post" th:action="@{/borpaper/beforetime/{timeR}}">
+  <form method="post" th:action="@{/borpaper/beforetime}" th:object="${dateInput}">
     <div class="form">
       <label>Trước ngày : </label>
-      <input type="text" class="form-control" id="timeR" required>
+      <input type="date" class="form-control" id="str" th:field="*{str}"required>
       <button type="submit" class="btn btn-primary">Tìm kiếm</button>
     </div>
   </form>
@@ -68,6 +66,11 @@
       <td th:text="${b.status}"></td>
       <td th:text="${librarianId[i.index]}"></td>
       <td th:text="${readerId[i.index]}"></td>
+      <td>
+        <form method="post" th:action="@{/borpaper/find/{id}(id=${b.id})}">
+          <button type="submit" class="btn btn-primary">Detail</button>
+        </form>
+      </td>
     </tr>
     </tbody>
   </table>

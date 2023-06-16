@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class LoginController {
@@ -20,7 +21,6 @@ public class LoginController {
     public String checkLogin(@ModelAttribute("librarian") Librarian librarian, Model model, HttpServletRequest request) {
         try {
             librarian = librarianService.getLibrarianByEmailAndPassword(librarian.getUsername(), librarian.getPassword());
-            if(librarian == null) System.out.println("NULLLLLLLLLLLLLLLLLLLLLLLLL");
             if (librarian != null) {
                 model.addAttribute("librarian", librarian);
                 HttpSession session = request.getSession();
@@ -33,5 +33,10 @@ public class LoginController {
         }
         model.addAttribute("loi", "Ten dang nhap hoac mat khau chua dung, vui long nhap lai!");
         return "loginSys";
+    }
+    @RequestMapping(path = {"/logout", "/login"})
+    public ModelAndView returnLogin(HttpSession session) {
+        session.invalidate();
+        return new ModelAndView("loginSys", "librarian", new Librarian());
     }
 }

@@ -3,14 +3,18 @@ package com.lib.controller;
 import com.lib.beans.Book;
 import com.lib.beans.Borpaper;
 import com.lib.beans.Librarian;
+import com.lib.beans.input.DateInput;
+import com.lib.beans.input.DoubleInput;
 import com.lib.services.BorpaperServiceImpl;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,12 +34,11 @@ public class BorpaperController {
             e.printStackTrace();
         }
         List<Borpaper> _borpaper = borpaperService.getAll();
-        List<Integer> _librarianId = new ArrayList<>(), _readerId = new ArrayList<>();
+        List<Integer> _librarianId = borpaperService.getAllLibrarianId(_borpaper);
+        List<Integer> _readerId = borpaperService.getAllReaderId(_borpaper);
+
+
         model.addAttribute("borpapers", _borpaper);
-        for (var b : _borpaper) {
-            _librarianId.add(borpaperService.getLibrarianId(b.getId()));
-            _readerId.add(borpaperService.getReaderId(b.getId()));
-        }
         model.addAttribute("librarianId", _librarianId);
         model.addAttribute("readerId", _readerId);
         return "borpaper";
@@ -53,15 +56,21 @@ public class BorpaperController {
         Borpaper _borpaper = borpaperService.getById(id);
         int _librarianId = borpaperService.getLibrarianId(_borpaper.getId());
         int _readerId = borpaperService.getReaderId(_borpaper.getId());
+        List<Book> books = borpaperService.getBookInBorpaper(_borpaper.getId());
+        List<String> _name = new ArrayList<>();
+        for (var b : books) {
+            _name.add(borpaperService.getName(b.getListbook_id()));
+        }
+
         model.addAttribute("borpaper", _borpaper);
         model.addAttribute("librarianId", _librarianId);
         model.addAttribute("readerId", _readerId);
-        List<Book> books = borpaperService.getBookInBorpaper(_borpaper.getId());
         model.addAttribute("books", books);
+        model.addAttribute("name", _name);
         return "borpaperFindById";
     }
     @RequestMapping("/timetotime/frm")
-    public String getTimetoTimeFrm(HttpSession session) {
+    public String getTimetoTimeFrm(HttpSession session, Model model) {
         Librarian librarian = (Librarian) session.getAttribute("librarian");
         try {
             if (librarian == null) {
@@ -70,10 +79,12 @@ public class BorpaperController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return "borpaperTimetoTimeFrm";
+        DoubleInput doubleInput = new DoubleInput();
+        model.addAttribute("doubleInput", doubleInput);
+        return "borpaperTimetoTime";
     }
-    @RequestMapping("/timetotime/{timeL}to{timeR}")
-    public String getTimetoTime (@PathVariable("timeL") String timeL, @PathVariable("timeR") String timeR, Model model, HttpSession session) {
+    @RequestMapping("/timetotime")
+    public String getTimetoTime (@ModelAttribute("doubleInput") DoubleInput doubleInput, Model model, HttpSession session) {
         Librarian librarian = (Librarian) session.getAttribute("librarian");
         try {
             if (librarian == null) {
@@ -82,13 +93,19 @@ public class BorpaperController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        List<Borpaper> _borpapers = borpaperService.getBorpapersByTimeToTime(timeL, timeR);
+        LocalDate tL = doubleInput.getStrL(), tR = doubleInput.getStrR();
+        List<Borpaper> _borpapers = borpaperService.getBorpapersByTimeToTime(tL, tR);
+        model.addAttribute("str", "Danh sách phiếu mượn từ ngày " + tL + " đến ngày " + tR);
+        List<Integer> _librarianId = borpaperService.getAllLibrarianId(_borpapers);
+        List<Integer> _readerId = borpaperService.getAllReaderId(_borpapers);
+
         model.addAttribute("borpapers", _borpapers);
-        model.addAttribute("str", " từ " + timeL + " đến " + timeR);
-        return "borpaperTimetoTimeFrm";
+        model.addAttribute("librarianId", _librarianId);
+        model.addAttribute("readerId", _readerId);
+        return "borpaperTimetoTime";
     }
     @RequestMapping("/beforetime/frm")
-    public String getBeforeTimeFrm(HttpSession session) {
+    public String getBeforeTimeFrm(HttpSession session, Model model) {
         Librarian librarian = (Librarian) session.getAttribute("librarian");
         try {
             if (librarian == null) {
@@ -97,10 +114,12 @@ public class BorpaperController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return "borpaperBeforeTimeFrm";
+        DateInput dateInput = new DateInput();
+        model.addAttribute("dateInput", dateInput);
+        return "borpaperBeforeTime";
     }
-    @RequestMapping("/beforetime/{timeR}")
-    public String getBeforeTime (@PathVariable("timeR") String timeR, Model model, HttpSession session) {
+    @RequestMapping("/beforetime")
+    public String getBeforeTime (@ModelAttribute("dateInput") DateInput dateInput, Model model, HttpSession session) {
         Librarian librarian = (Librarian) session.getAttribute("librarian");
         try {
             if (librarian == null) {
@@ -109,13 +128,19 @@ public class BorpaperController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        List<Borpaper> _borpapers = borpaperService.getBorpaperByTimeEnd(timeR);
+        LocalDate tR = dateInput.getStr();
+        List<Borpaper> _borpapers = borpaperService.getBorpaperByTimeEnd(tR);
+        List<Integer> _librarianId = borpaperService.getAllLibrarianId(_borpapers);
+        List<Integer> _readerId = borpaperService.getAllReaderId(_borpapers);
+
         model.addAttribute("borpapers", _borpapers);
-        model.addAttribute("str", " trước ngày " + timeR);
-        return "borpaperBeforeTimeFrm";
+        model.addAttribute("str", "Danh sách phiếu mượn trước ngày " + tR);
+        model.addAttribute("librarianId", _librarianId);
+        model.addAttribute("readerId", _readerId);
+        return "borpaperBeforeTime";
     }
     @RequestMapping("/aftertime/frm")
-    public String getAfterTimeFrm(HttpSession session) {
+    public String getAfterTimeFrm(HttpSession session, Model model) {
         Librarian librarian = (Librarian) session.getAttribute("librarian");
         try {
             if (librarian == null) {
@@ -124,10 +149,12 @@ public class BorpaperController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return "borpaperAfterTimeFrm";
+        DateInput dateInput = new DateInput();
+        model.addAttribute("dateInput", dateInput);
+        return "borpaperAfterTime";
     }
-    @RequestMapping("/aftertime/{timeL}")
-    public String getAfterTime (@PathVariable("timeL") String timeL, Model model, HttpSession session) {
+    @RequestMapping("/aftertime")
+    public String getAfterTime (@ModelAttribute("dateInput") DateInput dateInput, Model model, HttpSession session) {
         Librarian librarian = (Librarian) session.getAttribute("librarian");
         try {
             if (librarian == null) {
@@ -136,12 +163,19 @@ public class BorpaperController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        List<Borpaper> _borpapers = borpaperService.getBorpaperByTimeStart(timeL);
-        model.addAttribute("str", " sau ngày " + timeL);
-        return "borpaperAfterTimeFrm";
+        LocalDate tL = dateInput.getStr();
+        List<Borpaper> _borpapers = borpaperService.getBorpaperByTimeStart(tL);
+        List<Integer> _librarianId = borpaperService.getAllLibrarianId(_borpapers);
+        List<Integer> _readerId = borpaperService.getAllReaderId(_borpapers);
+
+        model.addAttribute("str", "Danh sách phiếu mượn sau ngày " + tL);
+        model.addAttribute("borpapers", _borpapers);
+        model.addAttribute("librarianId", _librarianId);
+        model.addAttribute("readerId", _readerId);
+        return "borpaperAfterTime";
     }
     @RequestMapping("/outofdate/frm")
-    public String getTimetoTime (Model model, HttpSession session) {
+    public String getOutOfDate (Model model, HttpSession session) {
         Librarian librarian = (Librarian) session.getAttribute("librarian");
         try {
             if (librarian == null) {
@@ -151,8 +185,14 @@ public class BorpaperController {
             e.printStackTrace();
         }
         List<Borpaper> _borpapers = borpaperService.getBorpaperOutOfDate();
-        model.addAttribute("str", " quá hạn");
-        return "borpaperOutOfDateFrm";
+        List<Integer> _librarianId = borpaperService.getAllLibrarianId(_borpapers);
+        List<Integer> _readerId = borpaperService.getAllReaderId(_borpapers);
+
+        model.addAttribute("str", "Danh sách phiếu mượn quá hạn");
+        model.addAttribute("borpapers", _borpapers);
+        model.addAttribute("librarianId", _librarianId);
+        model.addAttribute("readerId", _readerId);
+        return "borpaperOutOfDate";
     }
     @RequestMapping("/findByReaderId/{id}")
     public String findByReaderId (@PathVariable("id") int id, Model model, HttpSession session) {
@@ -168,5 +208,32 @@ public class BorpaperController {
         model.addAttribute("borpapers", _borpapers);
         model.addAttribute("str", " của bạn đọc có mã : " + String.valueOf(id));
         return "borpaperFindByReaderId";
+    }
+    @RequestMapping("/addBorpaper")
+    public String addBorpaper(@ModelAttribute("borpaper") Borpaper borpaper, Model model, HttpSession session) {
+        Librarian librarian = (Librarian) session.getAttribute("librarian");
+        try {
+            if (librarian == null) {
+                return "redirect:/login";
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Borpaper borpaper1 = new Borpaper();
+        model.addAttribute("borpaper", borpaper1);
+        return "borpaperAdd";
+    }
+    @RequestMapping("/saveBorpaper")
+    public String saveBorpaper(@ModelAttribute("borpaper") Borpaper borpaper, HttpSession session) {
+        Librarian librarian = (Librarian) session.getAttribute("librarian");
+        try {
+            if (librarian == null) {
+                return "redirect:/login";
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        borpaperService.saveBorpaper(borpaper);
+        return "redirect:/borpaper/all";
     }
 }

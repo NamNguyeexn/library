@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="librarianHome" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<nav class="navbar navbar-expand navbar-light bg-primary">
+    <div class="container">
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-5 mb-lg-0">
+                <li class="nav-item ">
+                    <a class="nav-link active text-white-50 col" aria-current="page" href="/librarian">Home</a>
+                </li>
+                <li class="nav-item col">
+                    <a class="button nav-link text-white-50 col" href="/book/all">Books</a>
+                </li>
+                <li class="nav-item col">
+                    <a class="button nav-link text-white-50 col" href="/borpaper/all">Borpaper</a>
+                </li>
+                <li class="nav-item col">
+                    <a class="button nav-link text-white-50 col" href="/billbook/all">Billbook</a>
+                </li>
+                <li class="nav-item col">
+                    <a class="button nav-link text-white-50 col" href="/boraction/all">Boraction</a>
+                </li>
+            </ul>
+            <div>
+                <a class="nav-link text-white-50 position-relative" href="/logout">Đăng xuất</a>
+            </div>
+        </div>
+    </div>
+</nav>
+<div class="container my-5 col-6">
+    <h4 class="text-center">Thêm hóa đơn mới</h4>
+    <form class="col-md-4 offset-md-4" th:action="@{/borpaper/saveBorpaper}" method="post" th:object="${borpaper}">
+        <div class="mb-3">
+            <label for="id" class="form-label">Mã phiếu mượn : </label>
+            <input type="text" class="form-control" id="id" name="id" th:field="*{id}" />
+        </div>
+        <div class="mb-3">
+            <label for="borDay" class="form-label">Ngày mượn : </label>
+            <input type="date" class="form-control" id="borDay" name="borDay" th:field="*{borDay}" />
+        </div>
+        <div class="mb-3">
+            <label for="retDay" class="form-label">Ngày trả : </label>
+            <input type="date" class="form-control" id="retDay" name="retDay" th:field="*{retDay}" />
+        </div>
+        <div class="mb-3">
+            <label for="lastDay" class="form-label">Hạn trả : </label>
+            <input type="date" class="form-control" id="lastDay" name="lastDay" th:field="*{lastDay}" />
+        </div>
+        <div class="mb-3">
+            <label for="detail" class="form-label">Mã các cuốn sách : </label>
+            <input type="text" class="form-control" id="detail" name="detail" th:field="*{detail}" />
+        </div>
+        <div class="mb-3">
+            <label for="status" class="form-label">Trạng thái phiếu : </label>
+            <select th:field="*{status}" id="status">
+                <option value="done">Đúng Hạn</option>
+                <option value="out">Quá Hạn</option>
+                <option value="not">Chưa Trả</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Lưu</button>
+    </form>
+</div>
+</body>
+</html>

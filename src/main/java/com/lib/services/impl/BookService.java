@@ -114,11 +114,12 @@ public class BookService implements BookServiceImpl {
         List<Book> res = new ArrayList<>();
         List<String> nameBook = new ArrayList<>();
         List<String> nameAuthor = new ArrayList<>();
+        key = key.toLowerCase();
         for (var b : listbookRepo.findAll()) {
-            if (b.getName().contains(key)) {
+            if (b.getName().toLowerCase().contains(key)) {
                 nameBook.add(b.getName());
             }
-            if (b.getAuthor().contains(key)) {
+            if (b.getAuthor().toLowerCase().contains(key)) {
                 nameAuthor.add(b.getAuthor());
             }
         }

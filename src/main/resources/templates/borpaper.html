@@ -25,9 +25,6 @@
         <li class="nav-item col">
           <a class="button nav-link text-white-50 col" href="/boraction/all">Boraction</a>
         </li>
-        <!--                <li class="nav-item">-->
-        <!--                    <a class="nav-link text-bg-primary" href="/admin/Reader">Reader</a>-->
-        <!--                </li>-->
       </ul>
       <div>
         <a class="nav-link text-white-50 position-relative" href="/logout">Đăng xuất</a>
@@ -36,26 +33,41 @@
   </div>
 </nav>
 <div class="container my-5 col-6 active">
-    <form method="post" th:action="@{/borpaper/timetotime/frm}">
+    <form method="post" th:action="@{/borpaper/addBorpaper}">
         <div class="form">
-            <button type="submit" class="btn btn-primary">Tìm kiếm trong khoảng thời gian</button>
+            <button type="submit" class="btn btn-primary">Thêm phiếu mượn</button>
         </div>
     </form>
-    <form method="post" th:action="@{/borpaper/beforetime/frm}">
-        <div class="form">
-            <button type="submit" class="btn btn-primary">Tìm kiếm trước thời gian</button>
+    <div class="row">
+        <div class="col-3">
+            <form method="post" th:action="@{/borpaper/timetotime/frm}">
+                <div class="form">
+                    <button type="submit" class="btn btn-primary">Tìm kiếm trong khoảng thời gian</button>
+                </div>
+            </form>
         </div>
-    </form>
-    <form method="post" th:action="@{/borpaper/aftertime/frm}">
-        <div class="form">
-            <button type="submit" class="btn btn-primary">Tìm kiếm sau thời gian</button>
+        <div class="col-3">
+            <form method="post" th:action="@{/borpaper/beforetime/frm}">
+                <div class="form">
+                    <button type="submit" class="btn btn-primary">Tìm kiếm trước thời gian</button>
+                </div>
+            </form>
         </div>
-    </form>
-    <form method="post" th:action="@{/borpaper/outofdate/frm}">
-        <div class="form">
-            <button type="submit" class="btn btn-primary">Phiếu mượn quá hạn</button>
+        <div class="col-3">
+            <form method="post" th:action="@{/borpaper/aftertime/frm}">
+                <div class="form">
+                    <button type="submit" class="btn btn-primary">Tìm kiếm sau thời gian</button>
+                </div>
+            </form>
         </div>
-    </form>
+        <div class="col-3">
+            <form method="post" th:action="@{/borpaper/outofdate/frm}">
+                <div class="form">
+                    <button type="submit" class="btn btn-primary">Phiếu mượn quá hạn</button>
+                </div>
+            </form>
+        </div>
+    </div>
     <table class="table table-striped table-hover">
     <thead>
     <tr>
@@ -81,7 +93,9 @@
       <td th:text="${librarianId[i.index]}"></td>
       <td th:text="${readerId[i.index]}" th:href="@{/borpaper/findByReaderId/{id}(id=${readerId[i.index]})}"></td>
       <td>
-        <button class="btn btn-primary" th:href="@{/borpaper/find/{id}(id=${b.id})}">Detail</button>
+          <form method="post" th:action="@{/borpaper/find/{id}(id=${b.id})}">
+              <button type="submit" class="btn btn-primary">Detail</button>
+          </form>
       </td>
     </tr>
     </tbody>

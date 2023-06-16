@@ -21,11 +21,21 @@ public class LibrarianController {
             e.printStackTrace();
         }
         model.addAttribute("librarian", librarian);
+        session.setAttribute("librarian", librarian);
         return "librarianSys";
     }
-    @RequestMapping(path = {"/logout", "/login"})
-    public ModelAndView returnLogin(HttpSession session) {
-        session.invalidate();
-        return new ModelAndView("loginSys", "librarian", new Librarian());
+    @RequestMapping("/librarian/home")
+    public String getHome(Model model, HttpSession session) {
+        Librarian librarian = (Librarian) session.getAttribute("librarian");
+        try {
+            if (librarian == null) {
+                return "redirect:/login";
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        model.addAttribute("librarian", librarian);
+        return "redirect:/librarian";
     }
+
 }

@@ -22,12 +22,6 @@
         <li class="nav-item col">
           <a class="button nav-link text-white-50 col" href="/billbook/all">Billbook</a>
         </li>
-        <li class="nav-item col">
-          <a class="button nav-link text-white-50 col" href="/boraction/all">Boraction</a>
-        </li>
-        <!--                <li class="nav-item">-->
-        <!--                    <a class="nav-link text-bg-primary" href="/admin/Reader">Reader</a>-->
-        <!--                </li>-->
       </ul>
       <div>
         <a class="nav-link text-white-50 position-relative" href="/logout">Đăng xuất</a>
@@ -36,8 +30,15 @@
   </div>
 </nav>
 <div class="container my-5 col-6">
-  <label>Danh sách phiếu mượn </label>
-  <span th:text="${str}"></span><br>
+  <form method="post" th:action="@{/borpaper/timetotime}" th:object="${doubleInput}">
+    <div class="form">
+      <label>Ngày : </label>
+      <input type="date" class="form-control" id="strL" th:field="*{strL}" required>
+      <label>tới ngày : </label>
+      <input type="date" class="form-control" id="strR" th:field="*{strR}" required>
+      <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+    </div>
+  </form>
   <table class="table table-striped table-hover">
     <thead>
     <tr>
@@ -49,6 +50,7 @@
       <th scope="col">Trạng thái</th>
       <th scope="col">Mã thủ thư</th>
       <th scope="col">Mã độc giả</th>
+      <th scope="col"></th>
     </tr>
     </thead>
     <tbody>
@@ -61,6 +63,11 @@
       <td th:text="${b.status}"></td>
       <td th:text="${librarianId[i.index]}"></td>
       <td th:text="${readerId[i.index]}"></td>
+      <td>
+        <form method="post" th:action="@{/borpaper/find/{id}(id=${b.id})}">
+          <button type="submit" class="btn btn-primary">Detail</button>
+        </form>
+      </td>
     </tr>
     </tbody>
   </table>
