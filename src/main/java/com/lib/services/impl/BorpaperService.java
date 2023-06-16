@@ -198,4 +198,10 @@ public class BorpaperService implements BorpaperServiceImpl {
         }
         return _librarianId;
     }
+
+    @Override
+    public void updateBorpaper(Borpaper borpaper) {
+        borpaperRepo.save(borpaper);
+    }
+
 }

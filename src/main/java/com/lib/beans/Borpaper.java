@@ -17,7 +17,7 @@ public class Borpaper {
     private int id;
     @Column(name = "bor_day", nullable = false)
     private LocalDate borDay;
-    @Column(name = "ret_day", nullable = false)
+    @Column(name = "ret_day", nullable = true)
     private LocalDate retDay;
     @Column(name = "last_day", nullable = false)
     private LocalDate lastDay;

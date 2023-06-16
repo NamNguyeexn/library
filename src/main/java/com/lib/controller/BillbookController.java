@@ -16,6 +16,7 @@ import java.util.List;
 public class BillbookController {
     @Autowired
     private BillbookServiceImpl billbookService;
+    private int billId;
     @GetMapping("/all")
     public String getAll(Model model, HttpSession session) {
         Librarian librarian = (Librarian) session.getAttribute("librarian");
@@ -27,6 +28,7 @@ public class BillbookController {
             e.printStackTrace();
         }
         List<Billbook> _billbook = billbookService.getAll();
+        billId = (int) billbookService.getNumId() + 1;
         model.addAttribute("billbooks", _billbook);
         return "billbook";
     }
@@ -63,6 +65,7 @@ public class BillbookController {
             e.printStackTrace();
         }
         Billbook billbook1 = new Billbook();
+        billbook1.setId(billId);
         model.addAttribute("billbook", billbook1);
         return "billbookAdd";
     }

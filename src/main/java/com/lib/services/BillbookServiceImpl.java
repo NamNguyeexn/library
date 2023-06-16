@@ -14,4 +14,5 @@ public interface BillbookServiceImpl {
     List<Billbook> getAll();
     Billbook getById(int id);
     void addBookByBillbook(Billbook billbook);
+    int getNumId();
 }

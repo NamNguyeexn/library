@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="librarianHome" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<nav class="navbar navbar-expand navbar-light bg-primary">
+  <div class="container">
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-5 mb-lg-0">
+        <li class="nav-item ">
+          <a class="nav-link active text-white-50 col" aria-current="page" href="/librarian">Home</a>
+        </li>
+        <li class="nav-item col">
+          <a class="button nav-link text-white-50 col" href="/book/all">Books</a>
+        </li>
+        <li class="nav-item col">
+          <a class="button nav-link text-white-50 col" href="/borpaper/all">Borpaper</a>
+        </li>
+        <li class="nav-item col">
+          <a class="button nav-link text-white-50 col" href="/billbook/all">Billbook</a>
+        </li>
+        <li class="nav-item col">
+          <a class="button nav-link text-white-50 col" href="/boraction/all">Boraction</a>
+        </li>
+        <!--                <li class="nav-item">-->
+        <!--                    <a class="nav-link text-bg-primary" href="/admin/Reader">Reader</a>-->
+        <!--                </li>-->
+      </ul>
+      <div>
+        <a class="nav-link text-white-50 position-relative" href="/logout">Đăng xuất</a>
+      </div>
+    </div>
+  </div>
+</nav>
+<div class="container my-5 col-6 active">
+  <form method="post" th:action="@{/borpaper/addBorpaper}">
+    <div class="form">
+      <button type="submit" class="btn btn-primary">Thêm phiếu mượn</button>
+    </div>
+  </form>
+  <div class="row">
+    <div class="col-3">
+      <form method="post" th:action="@{/borpaper/timetotime/frm}">
+        <div class="form">
+          <button type="submit" class="btn btn-primary">Tìm kiếm trong khoảng thời gian</button>
+        </div>
+      </form>
+    </div>
+    <div class="col-3">
+      <form method="post" th:action="@{/borpaper/beforetime/frm}">
+        <div class="form">
+          <button type="submit" class="btn btn-primary">Tìm kiếm trước thời gian</button>
+        </div>
+      </form>
+    </div>
+    <div class="col-3">
+      <form method="post" th:action="@{/borpaper/aftertime/frm}">
+        <div class="form">
+          <button type="submit" class="btn btn-primary">Tìm kiếm sau thời gian</button>
+        </div>
+      </form>
+    </div>
+    <div class="col-3">
+      <form method="post" th:action="@{/borpaper/outofdate/frm}">
+        <div class="form">
+          <button type="submit" class="btn btn-primary">Phiếu mượn quá hạn</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="block">
+    <form method="post" th:object="${borpaperInput}" th:action="@{/borpaper/saveBorpaperUpdate}">
+      <label>Id : </label>
+      <span th:text="${borpaper.id}"></span> <br>
+      <label>Ngày mượn : </label>
+      <span th:text="${borpaper.borDay}"></span><br>
+      <label>Ngày trả : </label>
+      <input type="date" class="form-control" id="retDay" name="retDay" th:field="*{retDay}" />
+      <label>Hạn trả : </label>
+      <span th:text="${borpaper.lastDay}"></span><br>
+      <label>Tình trạng : </label>
+      <select th:field="*{status}" id="status">
+        <option value="done">Đúng Hạn</option>
+        <option value="out">Quá Hạn</option>
+        <option value="not">Chưa Trả</option>
+      </select><br>
+      <label>Mã thủ thư : </label>
+      <span th:text="${librarianId}"></span><br>
+      <label>Mã độc giả : </label>
+      <span th:text="${readerId}"></span> <br>
+      <label>Danh sách sách mượn : </label>
+      <table class="table table-striped table-hover">
+        <thead>
+        <tr>
+          <th scope="col">Id</th>
+          <th scope="col">Id đầu sách</th>
+          <th scope="col">Tên sách</th>
+          <th scope="col">Chất lượng sách</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="b, i : ${books}">
+          <td th:text="${b.id}"></td>
+          <td th:text="${b.listbook_id}"></td>
+          <td th:text="${name[i.index]}"></td>
+          <td th:text="${b.detail}"></td>
+        </tr>
+        </tbody>
+      </table>
+      <button class="btn btn-primary" type="submit">Lưu</button>
+    </form>
+  </div>
+</div>
+</body>
+</html>

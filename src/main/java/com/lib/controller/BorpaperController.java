@@ -3,6 +3,7 @@ package com.lib.controller;
 import com.lib.beans.Book;
 import com.lib.beans.Borpaper;
 import com.lib.beans.Librarian;
+import com.lib.beans.input.BorpaperInput;
 import com.lib.beans.input.DateInput;
 import com.lib.beans.input.DoubleInput;
 import com.lib.services.BorpaperServiceImpl;
@@ -23,6 +24,7 @@ import java.util.List;
 public class BorpaperController {
     @Autowired
     private BorpaperServiceImpl borpaperService;
+    private Borpaper borpaperUp = new Borpaper();
     @RequestMapping("/all")
     public String getAll(Model model, HttpSession session) {
         Librarian librarian = (Librarian) session.getAttribute("librarian");
@@ -210,7 +212,7 @@ public class BorpaperController {
         return "borpaperFindByReaderId";
     }
     @RequestMapping("/addBorpaper")
-    public String addBorpaper(@ModelAttribute("borpaper") Borpaper borpaper, Model model, HttpSession session) {
+    public String addBorpaper(Model model, HttpSession session) {
         Librarian librarian = (Librarian) session.getAttribute("librarian");
         try {
             if (librarian == null) {
@@ -234,6 +236,50 @@ public class BorpaperController {
             e.printStackTrace();
         }
         borpaperService.saveBorpaper(borpaper);
+        return "redirect:/borpaper/all";
+    }
+    @RequestMapping("/updateBorpaper/{id}")
+    public String updateBorpaper(@PathVariable(value = "id") int id, HttpSession session, Model model) {
+        Librarian librarian = (Librarian) session.getAttribute("librarian");
+        try {
+            if (librarian == null) {
+                return "redirect:/login";
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        BorpaperInput borpaperInput = new BorpaperInput();
+        Borpaper _borpaper = borpaperService.getById(id);
+        borpaperUp = _borpaper;
+        int _librarianId = borpaperService.getLibrarianId(_borpaper.getId());
+        int _readerId = borpaperService.getReaderId(_borpaper.getId());
+        List<Book> books = borpaperService.getBookInBorpaper(_borpaper.getId());
+        List<String> _name = new ArrayList<>();
+        for (var b : books) {
+            _name.add(borpaperService.getName(b.getListbook_id()));
+        }
+        model.addAttribute("borpaperInput", borpaperInput);
+        model.addAttribute("borpaper", _borpaper);
+        model.addAttribute("librarianId", _librarianId);
+        model.addAttribute("readerId", _readerId);
+        model.addAttribute("books", books);
+        model.addAttribute("name", _name);
+
+        return "borpaperUpdate";
+    }
+    @RequestMapping("/saveBorpaperUpdate")
+    public String saveBorpaperUpdate(@ModelAttribute("borpaperInput") BorpaperInput borpaperInput, HttpSession session) {
+        Librarian librarian = (Librarian) session.getAttribute("librarian");
+        try {
+            if (librarian == null) {
+                return "redirect:/login";
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        borpaperUp.setRetDay(borpaperInput.getRetDay());
+        borpaperUp.setStatus(borpaperInput.getStatus());
+        borpaperService.saveBorpaper(borpaperUp);
         return "redirect:/borpaper/all";
     }
 }

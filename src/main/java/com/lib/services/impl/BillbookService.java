@@ -97,6 +97,12 @@ public class BillbookService implements BillbookServiceImpl {
             bookRepo.save(book);
         }
     }
+
+    @Override
+    public int getNumId() {
+        return (int) billbookRepo.count();
+    }
+
     private Listbook createListbook(Billbook billbook) {
         int countl = (int) listbookRepo.count();
         System.out.println("SO LUONG DAU SACH LA " + countl);

@@ -21,4 +21,5 @@ public interface BorpaperServiceImpl {
     void saveBorpaper(Borpaper borpaper);
     List<Integer> getAllReaderId(List<Borpaper> borpapers);
     List<Integer> getAllLibrarianId(List<Borpaper> borpapers);
+    void updateBorpaper(Borpaper borpaper);
 }
