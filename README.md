@@ -1,8 +1,20 @@
-# library
-Dự án hoàn thành trong 1 tuần 
+# **Library**
 
-Sử dụng java Spring Boot cho phía server-side
++ Dự án cho phép quản thư sử dụng để quản lý thư viện
 
-Sử dụng MySQL để thiết lập và cấu hình cơ sở dữ liệu
+## Mục đích
 
-Sử dụng JPA để liên kết với cơ sở dữ liệu
++ Phần mềm giúp người sử dụng có thể quản lý việc nhập, xuất các đầu sách, tìm kiếm các đầu sách và quản lý lịch sử mượn sách của độc giả 
+
+## Công nghệ sử dụng 
+
++ Sử dụng ngôn ngữ lập trình Java 
++ Sử dụng framework Java Spring Boot để xây dựng web
++ Sử dụng MySQL làm công cụ quản lý cơ sở dữ liệu 
+
+## Các thiết kế chính 
+
++ Thiết kế logic 
+![Logic.png]
++ Biểu đồ cơ sở dữ liệu 
+![CSDL.png]
