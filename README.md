@@ -15,6 +15,6 @@
 ## Các thiết kế chính 
 
 + Thiết kế logic 
-![Logic.png]
+![Logic.png](Logic.png)
 + Biểu đồ cơ sở dữ liệu 
-![CSDL.png]
+![CSDL.png](CSDL.png)
